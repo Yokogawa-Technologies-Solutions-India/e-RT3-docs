@@ -45,11 +45,11 @@ This is how the user can access the device through a browser
 
 1. Make sure you belong to same network as device.
 2. Open PuTTY and type in the IP address of e-RT3. (By default, 192.168.3.72) and hit enter. <br><br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;![alt text](assets/ip_new.PNG)<br><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;![alt text](assets/ip_new.png)<br><br>
 3. When establishing connection for the first time, the PuTTY Security Alert dialog is displayed. Click “Yes” to continue. <br><br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;![alt text](assets/security.PNG)<br><br>
 4. Now it will ask for user id and password. Enter the user id and password. But only normal user can access e-RT3 Plus with SSH with the default settings. <br><br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;![alt text](assets/login_new.PNG)<br><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;![alt text](assets/login_new.png)<br><br>
 5. Now the user is good to perform different tasks. <br><br>
 
    User can perform tasks like 

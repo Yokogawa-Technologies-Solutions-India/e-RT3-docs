@@ -388,9 +388,9 @@ This is an entry-level python script to upload the telemetry data which might re
 
 ---
 
-| `Co-innovating tomorrow` |                                                                                                         | `© Yokogawa Electric Corporation` |
-| ------------------------ | ------------------------------------------------------------------------------------------------------- | --------------------------------- |
-|                          | [![Yokogawa logo](https://www.yokogawa.com/public/img/logo-ia-redesign.png)](https://www.yokogawa.com/) |                                   |
+| `Co-innovating tomorrow` |                                                                                                         | `© Yokogawa Technologies Solutions India` |
+| ------------------------ | ------------------------------------------------------------------------------------------------------- | ----------------------------------------- |
+|                          | [![Yokogawa logo](https://www.yokogawa.com/public/img/logo-ia-redesign.png)](https://www.yokogawa.com/) |                                           |
 
 ---
 

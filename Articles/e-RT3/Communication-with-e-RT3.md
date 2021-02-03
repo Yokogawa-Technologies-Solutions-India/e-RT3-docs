@@ -66,3 +66,12 @@ This is how the user can access the device through a browser
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The SSH connection provides the safest communication between the user and the device and it is most preferred by developers. The browser based connection has limited tasks that can be performed. But both connections let the user to connect to e-RT3 Plus easily.</p>
 
 ---
+---
+
+| `Co-innovating tomorrow` |                                                                                                         | `© Yokogawa Technologies Solutions India` |
+| ------------------------ | ------------------------------------------------------------------------------------------------------- | ----------------------------------------- |
+|                          | [![Yokogawa logo](https://www.yokogawa.com/public/img/logo-ia-redesign.png)](https://www.yokogawa.com/) |                                           |
+
+---
+
+---

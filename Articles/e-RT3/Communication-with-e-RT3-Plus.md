@@ -29,7 +29,7 @@ With the help of SSH connection, user can perform many tasks. But in order to co
 1. Make sure you belong to same network as device.
 2. Open PuTTY and type in the IP address of e-RT3. (By default, 192.168.3.72) and hit enter.
 
-![alt text](assets/ip_new.PNG)
+![alt text](assets/ip_new.png)
 
 3. When establishing connection for the first time, the PuTTY Security Alert dialog is displayed. Click “Yes” to continue.
 

@@ -37,7 +37,7 @@ With the help of SSH connection, user can perform many tasks. But in order to co
 
 4. Now it will ask for user id and password. Enter the user id and password. But only normal user can access e-RT3 Plus with SSH with the default settings.
 
-![alt text](assets/login_new.PNG)
+![alt text](assets/login_new.png)
 
 5. Now the user is good to perform different tasks.
 

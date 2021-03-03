@@ -5,8 +5,7 @@ are some basic pre-requisites for this tutorial as followed -
 
 1. [Azure IoT Hub](https://portal.azure.com/)
 2. [Python](https://www.python.org/)
-3. [**e-RT3 Plus device**](#link-to-e-rt3-into)
-4. [**SSH communication between e-RT3 and PC**](#link-to-e-rt3-ssh)
+3. [**SSH communication between e-RT3 and PC**](../e-RT3/Communication-with-e-RT3-Plus.md#communicating--with-e-rt3-plus-by-ssh)
 
 In this tutorial, we have used -
 
@@ -383,15 +382,3 @@ This is an entry-level python script to upload the telemetry data which might re
 **3.** [Python Virtual Environments and Packages](https://docs.python.org/3/tutorial/venv.html)
 
 **4.** [Azure SDK for Python](https://docs.microsoft.com/en-us/python/api/azure-iot-device/?view=azure-python)
-
----
-
----
-
-| `Co-innovating tomorrow` |                                                                                                         | `© Yokogawa Technologies Solutions India` |
-| ------------------------ | ------------------------------------------------------------------------------------------------------- | ----------------------------------------- |
-|                          | [![Yokogawa logo](https://www.yokogawa.com/public/img/logo-ia-redesign.png)](https://www.yokogawa.com/) |                                           |
-
----
-
----

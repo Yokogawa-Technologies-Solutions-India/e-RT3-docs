@@ -1,11 +1,11 @@
-# Send telemetry data from e-RT3 to Azure IoT hub
+# Send telemetry data from e-RT3 Plus to Azure IoT hub
 
-In this tutorial, we are going to establish telemetry communication between e-RT3 and azure IoT Hub. There
+In this tutorial, we are going to establish telemetry communication between e-RT3 Plus and azure IoT Hub. There
 are some basic pre-requisites for this tutorial as followed -
 
 1. [Azure IoT Hub](https://portal.azure.com/)
 2. [Python](https://www.python.org/)
-3. [**SSH communication between e-RT3 and PC**](../e-RT3/Communication-with-e-RT3-Plus.md#communicating--with-e-rt3-plus-by-ssh)
+3. [**SSH communication between e-RT3 Plus and PC**](../e-RT3/Communication-with-e-RT3-Plus.md#communicating--with-e-rt3-plus-by-ssh)
 
 In this tutorial, we have used -
 
@@ -97,7 +97,7 @@ az iot hub device-identity connection-string show --hub-name YOUR_HUB_NAME --dev
 
 ## Send simulated telemetry data with python
 
-To send the telemetry data, we are using the `Python` script. For this step please Make sure that **_you have installed `pip3` and `venv` on your e-RT3 device_**. `pip3` comes by default with the [e-RT3 OS](https://partner.yokogawa.com/global/itc/index.htm). _Please note that the e-RT3 OS file is only accessible to the registered member of the partner portal_.
+To send the telemetry data, we are using the `Python` script. For this step please Make sure that **_you have installed `pip3` and `venv` on your e-RT3 Plus device_**. `pip3` comes by default with the [e-RT3 Plus OS](https://partner.yokogawa.com/global/itc/index.htm). _Please note that the e-RT3 Plus OS file is only accessible to the registered member of the partner portal_.
 
 In case you did not install the **_python virtual module (venv)_** previously, then you can install it by using the following steps -
 
@@ -185,7 +185,7 @@ touch YOUR_FILE_NAME.py
 
 ### Python code to send the simulated data
 
-Once you have access to the "e-RT3" and able to execute a python script, then it's time to send some simulated data to [Azure IoT Hub](https://portal.azure.com/).
+Once you have access to the "e-RT3 Plus" and able to execute a python script, then it's time to send some simulated data to [Azure IoT Hub](https://portal.azure.com/).
 
 1. To send simulated data we are going to use a python module provided by azure called [azure-iot-device](https://pypi.org/project/azure-iot-device/).
    In your terminal window, run the following command to install [azure-iot-device](https://pypi.org/project/azure-iot-device/) if required.
@@ -335,7 +335,7 @@ Once, you have installed and able to connect to the IoT hub click on the **Telem
 
 ### Proxy settings
 
-Personally for me, one of the most difficult things is to configure the `Proxy` settings, and also I think this varies from environment to environment. Here I'm going to mention my setting for this e-RT3 device.
+Personally for me, one of the most difficult things is to configure the `Proxy` settings, and also I think this varies from environment to environment. Here I'm going to mention my setting for this e-RT3 Plus device.
 
 1. Open a Terminal window where you need proxy access.
 2. Set and export the HTTP_PROXY variable.
@@ -371,7 +371,7 @@ unset HTTP_PROXY HTTPS_PROXY NO_PROXY
 
 ## Conclusion
 
-This is an entry-level python script to upload the telemetry data which might require some pre-knowledge of e-RT3 and Azure IoT hub.
+This is an entry-level python script to upload the telemetry data which might require some pre-knowledge of e-RT3 Plus and Azure IoT hub.
 
 ## Reference
 

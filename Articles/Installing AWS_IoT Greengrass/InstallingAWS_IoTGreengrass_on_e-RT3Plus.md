@@ -124,8 +124,10 @@ Follow these steps to create a Greengrass Group in AWS Cloud:
 
 4. Click **Use default creation**.
     ![AWS_managementConsole_useDefault](assets/AWS_managementConsole_useDefault.jpg)
+    
 5. In the **Group Name** box, type your group name and click **Next**.
     ![AWS_managementConsole_Groupname](assets/AWS_managementConsole_Groupname.jpg)
+    
 6. In the **Name** box, type the name of the Greengrass Core for the group and click **Next**. By default, “_Core” is appended with the group name.
 
     ![AWS_managementConsole_nameCore](assets/AWS_managementConsole_nameCore.jpg)

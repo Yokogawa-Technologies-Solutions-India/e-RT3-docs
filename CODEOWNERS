@@ -4,5 +4,8 @@ Articles/Azure/Send-telemetry-data-from-e-RT3-to-azure-IoT-hub.md @Yokogawa-Tama
 # e-RT3
 Articles/e-RT3/Communication-with-e-RT3.md @Yokogawa-Sanath
 
-# Installing AWS IoT Greengrass
-Articles/e-RT3/InstallingAWS_IoTGreengrass_on_e-RT3Plus.md @Yokogawa-Nilesh
+# AWS
+Articles/AWS/Installing_AWS-IoT_Greengrass.md @Yokogawa-Nilesh
+
+# AI
+Articles/AI/Sample_AI_Application.md @Yokogawa-BrigitteZacharia

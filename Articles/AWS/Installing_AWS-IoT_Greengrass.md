@@ -2,9 +2,9 @@
 
 ## Introduction
 
-AWS IoT Greengrass is a software that extends cloud capabilities to local devices. This enables devices to collect and analyze data closer to the source of information, react autonomously to local events, and communicate securely with each other on local networks. Local devices can also communicate securely with AWS IoT Core and export IoT data to the AWS Cloud.
+AWS IoT Greengrass is a software that renders enhanced cloud capabilities to field devices. This enables the devices to collect and analyze data locally, react to local events independently, and communicate securely on local networks. The devices can also communicate securely with AWS IoT Core and export IoT data to the AWS Cloud.
 
-In this article, we will create a Greengrass Group on AWS Cloud and install AWS IoT Greengrass Core on the Edge device (e-RT3 Plus).
+In this article, we will create a Greengrass Group on AWS Cloud and install AWS IoT Greengrass Core on the Edge device (e-RT3 Plus). Additionally, we will deploy a sample package to verify the connection with AWS Cloud.
 
 For more information on AWS IoT Greengrass, refer to [AWS IoT Greengrass official website](https://docs.aws.amazon.com/greengrass/index.html).
 
@@ -18,20 +18,17 @@ This is the Edge controller of Yokogawa Electric Corporation. It is registered i
 
 > **Note**: These devices can execute `armhf` architecture packages.
 
-----
-
 ## Preparation
 
 ### Creation of AWS account
 
 If you do not have an AWS account, create one using this [link](https://aws.amazon.com/en/).
-
 Limited usage slots are available for free.
 For more information on using free slots, click [here](https://aws.amazon.com/free/?nc2=h_ql_pr_ft&all-free-tier.sort-by=item.additionalFields.SortRank&all-free-tier.sort-order=asc&awsf.Free%20Tier%20Categories=categories%23iot&awsf.Free%20Tier%20Types=*all).
 
 ### Installation of WinSCP
 
-Transferring files from PC to the device requires installation of WinSCP in the PC.
+Transferring files from PC to the device requires installation of WinSCP.
 
 For more information on installing and using WinSCP, refer to the [official website](https://winscp.net/eng/index.php).
 
@@ -39,38 +36,38 @@ For more information on installing and using WinSCP, refer to the [official webs
 
 > **Note**: This setting is required only when using e-RT3.When using e-RT3, [sudo setting](https://github.com/Yokogawa-Technologies-Solutions-India/e-RT3-docs/blob/master/Articles/Azure/Send-telemetry-data-from-e-RT3-to-azure-IoT-hub.md#enabling-sudo-user) is required for common users to use the *sudo* command.
 
-Run the following commands to install Python3.8 to be used in Lambda of Greengrass.
+1. Run the following commands to install Python3.8 to be used in Lambda of Greengrass.
 
-```bash
-sudo apt update
-sudo apt install python3.8
-```
+    ```bash
+    sudo apt update
+    sudo apt install python3.8
+    ```
 
-To confirm whether installation is successful, run the following command to check the version.
+2. To confirm whether installation is successful, run the following command to check the version.
 
-```bash
-username@ubuntu:~$ python3.8 --version
-Python 3.8.0
-```
+    ```bash
+    username@ubuntu:~$ python3.8 --version
+    Python 3.8.0
+    ```
 
 ### Installation of Java8
 
 Java8 is required for using the Stream Manager of Greengrass.
 
-- To install Java8, run the following commands:
+1. To install Java8, run the following commands:
 
     ```bash
-    sudo apt update
-    sudo apt install openjdk-8-jdk
+        sudo apt update
+        sudo apt install openjdk-8-jdk
     ```
 
-- To establish the connection, run the following command:
+2. To establish the connection, run the following command:
 
     ```bash
-    sudo ln /etc/alternatives/java /usr/bin/java8
+     sudo ln /etc/alternatives/java /usr/bin/java8
     ```
 
-- To verify if Java8 is installed properly, run the following commands:
+3. To verify if Java8 is installed properly, run the following commands:
 
     ```bash
     username@ubuntu:~$ java8 -version
@@ -102,8 +99,6 @@ Validate cgroup for running Lambda in the container.
     ```bash
     sudo reboot
     ```
-
-----
 
 ## Creating Greengrass Group
 
@@ -140,11 +135,10 @@ Follow these steps to create a Greengrass Group in AWS Cloud:
 
     ![AWS_managementConsole_Download](assets/AWS_managementConsole_Download.jpg)
 
-    >**Note**: that this file cannot be downloaded later and hence, you must download the file before proceeding to the next step.
+     >**Note**: The tar.gz file cannot be downloaded later and hence, you must download the file before proceeding to the next step.
 
 9. After downloading the file, click **Finish**.
-
-The Greengrass Group is created.
+   The Greengrass Group is created.
 
 ## Installing Greengrass Core on e-RT3 Plus
 
@@ -329,7 +323,6 @@ Refer [this article](https://docs.aws.amazon.com/greengrass/v1/developerguide/gg
     sudo systemctl start greengrass.service
     ```
 
-----
 
 ## References
 

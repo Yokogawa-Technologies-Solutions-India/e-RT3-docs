@@ -120,18 +120,18 @@ Follow these steps to create a Greengrass Group in AWS Cloud:
     ![AWS_managementConsole_search](assets/AWS_managementConsole_search.jpg)
 
 3. On the navigation pane, expand **Greengrass > Classic (V1)** and select **Groups**, and then click **Create Group** on the right pane.
-    ![AWS_managementConsole_CreateGroup](assets/AWS_managementConsole_CreateGroup.jpg)
+    ![AWS_managementConsole_CreateGroup](assets/AWS_managementConsole_CreateGroup.png)
 
 4. Click **Use default creation**.
     
     ![AWS_managementConsole_useDefault](assets/AWS_managementConsole_useDefault.jpg)
     
 5. In the **Group Name** box, type your group name and click **Next**.
-    ![AWS_managementConsole_Groupname](assets/AWS_managementConsole_Groupname.jpg)
+    ![AWS_managementConsole_Groupname](assets/AWS_managementConsole_Groupname.png)
     
 6. In the **Name** box, type the name of the Greengrass Core for the group and click **Next**. By default, “_Core” is appended with the group name.
 
-    ![AWS_managementConsole_nameCore](assets/AWS_managementConsole_nameCore.jpg)
+    ![AWS_managementConsole_nameCore](assets/AWS_managementConsole_nameCore.png)
 
 7. Click **Create Group and Core**.
     ![AWS_managementConsole_CreateCore](assets/AWS_managementConsole_CreateCore.jpg)
@@ -255,9 +255,9 @@ Follow these steps to test the connection in AWS Greengrass:
 1. On the navigation plane, select **Groups**, and click the created group.
    ![AWS_Deployment_Groups](assets/AWS_Deployment_Groups.jpg)
 2. From the **Actions** menu, click **Deploy** to deploy the group.
-    ![AWS_Deployment_Actions](assets/AWS_Deployment_Actions.jpg)
+    ![AWS_Deployment_Actions](assets/AWS_Deployment_Actions.png)
 3. Click **Automatic detection**.
-    ![AWS_Deployment_automaticDetection](assets/AWS_Deployment_automaticDetection.jpg)
+    ![AWS_Deployment_automaticDetection](assets/AWS_Deployment_automaticDetection.png)
 4. Wait for a few minutes until the deployment is complete.
 
     If the group is deployed successfully, the connection status is displayed in green.

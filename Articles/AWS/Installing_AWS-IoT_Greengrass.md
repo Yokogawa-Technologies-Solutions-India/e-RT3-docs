@@ -257,6 +257,7 @@ Follow these steps to test the connection in AWS Greengrass:
 2. From the **Actions** menu, click **Deploy** to deploy the group.
    ![AWS_Deployment_Actions](assets/AWS_Deployment_Actions.png)
 3. Click **Automatic detection**.
+   
    ![AWS_Deployment_automaticDetection](assets/AWS_Deployment_Automatic_Detection.png)
 4. Wait for a few minutes until the deployment is complete.
 

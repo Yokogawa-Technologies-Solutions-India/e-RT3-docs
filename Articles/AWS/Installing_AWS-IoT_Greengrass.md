@@ -122,8 +122,10 @@ Follow these steps to create a Greengrass Group in AWS Cloud:
 
 4. Click **Use default creation**.
     ![AWS_managementConsole_useDefault](assets/AWS_managementConsole_useDefault.jpg)
+	
 5. In the **Group Name** box, type your group name and click **Next**.
     ![AWS_managementConsole_Groupname](assets/AWS_managementConsole_Groupname.jpg)
+	
 6. In the **Name** box, type the name of the Greengrass Core for the group and click **Next**. By default, “_Core” is appended with the group name.
 
     ![AWS_managementConsole_nameCore](assets/AWS_managementConsole_nameCore.jpg)
@@ -248,10 +250,13 @@ Follow these steps to test the connection in AWS Greengrass:
 
 1. On the navigation plane, select **Groups**, and click the created group.
    ![AWS_Deployment_Groups](assets/AWS_Deployment_Groups.jpg)
+   
 2. From the **Actions** menu, click **Deploy** to deploy the group.
-    ![AWS_Deployment_Actions](assets/AWS_Deployment_Actions.jpg)
+   ![AWS_Deployment_Actions](assets/AWS_Deployment_Actions.jpg)
+	
 3. Click **Automatic detection**.
-    ![AWS_Deployment_automaticDetection](assets/AWS_Deployment_automaticDetection.jpg)
+   ![AWS_Deployment_automaticDetection](assets/AWS_Deployment_automaticDetection.jpg)
+	
 4. Wait for a few minutes until the deployment is complete.
 
     If the group is deployed successfully, the connection status is displayed in green.

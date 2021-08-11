@@ -6,7 +6,7 @@ e-RT3 Plus is a high-performance controller with connected intelligence. Its abi
 
 In this article, we will show how to deploy a sample AI application on the e-RT3 Plus device. The aim is to create a data model and visualize the prediction for a sample [Iris dataset](https://archive.ics.uci.edu/ml/datasets/Iris) by using the AI application. However, the Iris dataset is a sample dataset and can be substituted for any other machine learning dataset of your choice.
 
-![positioning](assets/positioning.png)
+![positioning](assets/sample-ai-application/positioning.png)
 
 We start by installing a sample AI application on the e-RT3 Plus device. Next, we upload the sample data from a .csv file to the AI application, following which we select the features and create a data model for prediction. Finally, we predict the data based on the created data model.
 
@@ -14,7 +14,7 @@ We start by installing a sample AI application on the e-RT3 Plus device. Next, w
 
 The following figure shows the workflow for deploying an AI application and visualizing the data prediction.
 
-![workflow](assets/workflow.png)
+![workflow](assets/sample-ai-application/workflow.png)
 
 ## Prerequisites
 
@@ -26,7 +26,12 @@ Before you can start deploying an AI application to e-RT3 Plus, the following re
 4. A processed dataset for AI prediction must be available in .csv format.
     > **Note**: The .csv file is required to have column headers. Additionally, there must be a column named `Target` which contains the expected prediction values. The processed dataset file must not have any null, strings, objects, or categorical data.
 5. The AI application files must be available.
-    > **Note**: You can develop your own AI application files, or you can download the sample application files [here](https://github.com/Yokogawa-Technologies-Solutions-India/e-RT3-docs/tree/master/Libraries/Sample%20AI%20Application).
+    > **Note**: You can develop your own AI application files, or you can download the sample installer and  application files from the following locations:
+    >
+    >- [installer.sh](https://github.com/Yokogawa-Technologies-Solutions-India/e-RT3-docs/releases/download/v1.0-beta.1/installer.sh)
+    >- [sample_ai_application](https://github.com/Yokogawa-Technologies-Solutions-India/e-RT3-docs/releases/download/v1.0-beta.1/sample-ai-application)
+    >
+    >These files are available for sample usage, and does not include support.
 
 ----
 
@@ -47,12 +52,10 @@ Follow these steps to install the AI application files on e-RT3 Plus:
 
 1. Open WinSCP and log on to the e-RT3 Plus device.
 
-    For more information about how to connect to e-RT3 and transfer files using WinSCP, refer to the [Appendix](#using-winscp-to-transfer-files-to-e-rt3-plus).
+    For more information about how to connect to e-RT3 Plus and transfer files using WinSCP, refer to the [Appendix](#using-winscp-to-transfer-files-to-e-rt3-plus).
 2. Upload the AI application file `sample-ai-application`, and installer `installer.sh` to the e-RT3 Plus device using WinSCP.
-    ![WinSCP](assets/WinSCP.jpg)
+    ![WinSCP](assets/sample-ai-application/WinSCP.jpg)
 
-    Click [here](https://github.com/Yokogawa-Technologies-Solutions-India/e-RT3-docs/tree/master/Libraries/Sample%20AI%20Application) to download the files.
-    >**Note**: These files are available for use as is, and does not include support.
 3. Log on to PuTTY.
 
     For more information about how to communicate with e-RT3 Plus using PuTTY, refer to [Remote communication with e-RT3 Plus](https://github.com/Yokogawa-Technologies-Solutions-India/e-RT3-docs/blob/master/Articles/e-RT3/Communication-with-e-RT3-Plus.md#establishing-ssh-connection-to-e-rt3-plus).
@@ -97,12 +100,12 @@ Follow these steps to select the data visualization features:
 
     The home page of the AI application appears.
 
-    ![hompage_step1](assets/hompage_step1.jpg)
+    ![hompage_step1](assets/sample-ai-application/hompage_step1.jpg)
 
 2. In the Feature Selection section, click **Navigate**.
 
     The *Feature Selection* page appears.
-    ![FeatureSelectionpage](assets/FeatureSelectionpage.jpg)
+    ![FeatureSelectionpage](assets/sample-ai-application/FeatureSelectionpage.jpg)
 
 3. Click **Click here to browse**.
 4. Navigate to the folder that contains the (.csv) file of the dataset you have chosen to test. In this example, we are using the Iris dataset.
@@ -110,11 +113,11 @@ Follow these steps to select the data visualization features:
 
     The data table from the .csv file is displayed.
 
-    ![EditColumnName](assets/EditColumnName.jpg)
+    ![EditColumnName](assets/sample-ai-application/EditColumnName.jpg)
 
     Additionally, the Scatter Matrix and the Correlation Matrix appear, displaying the relationship between the target data and the features.
 
-    ![scatter_corelation](assets/scatter_corelation.jpg)
+    ![scatter_corelation](assets/sample-ai-application/scatter_corelation.jpg)
 
     For more information about how the Scatter matrix and Correlation matrix are used in prediction, refer to [Understanding the correlation matrix](https://www.displayr.com/what-is-a-correlation-matrix/#:~:text=There%20are%20three%20broad%20reasons%20for%20computing%20a,As%20a%20diagnostic%20when%20checking%20other%20analyses.%20) and [How to read a correlation matrix](https://www.statology.org/how-to-read-a-correlation-matrix/).
 
@@ -126,7 +129,7 @@ Follow these steps to select the data visualization features:
    1. Click **Modify Table with python**.
 
       A Python code editor appears.
-        ![PythonEditor](assets/PythonEditor.jpg)
+        ![PythonEditor](assets/sample-ai-application/PythonEditor.jpg)
 
    2. Specify the following code in the editor to rename the column
 
@@ -142,14 +145,14 @@ Follow these steps to select the data visualization features:
 
 7. Select **Select features manually** to select the features you want to view in the scatter matrix.
 8. Select the features that must appear in the scatter matrix from the drop-down list.
-    ![scatterMatrix](assets/scatterMatrix.jpg)
+    ![scatterMatrix](assets/sample-ai-application/scatterMatrix.jpg)
 
     > **Note**: Select **Select all features** to view all features in the scatter matrix.
 9. If you want to visualize your dataset by using the Principal Component Analysis (PCA) algorithm, select the  **PCA 2D**, **PCA 3D**, or **PCA matrix** checkboxes according to your data visualization requirements.
 
     The PCA algorithm uses the dimensionality-reduction method for data analysis and prediction.
 
-    ![PCACheckboxes](assets/PCACheckboxes.jpg)
+    ![PCACheckboxes](assets/sample-ai-application/PCACheckboxes.jpg)
 
     Using these features, large chunks of information across the entire data set are effectively compressed and visualized in fewer feature columns.
 
@@ -165,11 +168,11 @@ Follow these steps to create the data model for AI prediction:
 
     The *Generate Your model* page appears.
 
-    ![hompage_step_2](assets/hompage_step_2.jpg)
+    ![hompage_step_2](assets/sample-ai-application/hompage_step_2.jpg)
 
 2. From the **Select dataset** drop-down list, select the dataset for which you selected the features.
 
-    ![SelctDataset](assets/SelctDataset.jpg)
+    ![SelctDataset](assets/sample-ai-application/SelctDataset.jpg)
 
 3. Select an algorithm as necessary and click **Generate**.
 
@@ -182,7 +185,7 @@ Follow these steps to create the data model for AI prediction:
 
    An evaluation graph of the model accuracy based on the selected dataset is displayed.
 
-    ![algoGenerate](assets/algoGenerate.jpg)
+    ![algoGenerate](assets/sample-ai-application/algoGenerate.jpg)
 
     > **Note**: Ensure that you note the model name which will be used for predicting the data.
 
@@ -196,11 +199,11 @@ Follow these steps to start the data prediction:
 
     The *Predict on model* page appears.
 
-    ![Navigate_prediction](assets/Navigate_prediction.jpg)
+    ![Navigate_prediction](assets/sample-ai-application/Navigate_prediction.jpg)
   
 2. From the **Select Model** drop-down list, select the model name which was generated while creating the model.
 
-    ![SelectModelPredict](assets/SelectModelPredict.jpg)
+    ![SelectModelPredict](assets/sample-ai-application/SelectModelPredict.jpg)
 
 3. Select one of the following prediction modes.
 
@@ -208,7 +211,7 @@ Follow these steps to start the data prediction:
 
       1. Select **Single target prediction**.
       2. Specify the parameters, which in this case are, sepal length, petal length, and petal width.
-       ![SingleTargetPrediction](assets/SingleTargetPrediction.jpg)
+       ![SingleTargetPrediction](assets/sample-ai-application/SingleTargetPrediction.jpg)
 
     - **Multiple target prediction**  
 
@@ -217,13 +220,13 @@ Follow these steps to start the data prediction:
       3. Browse to select the required .csv file.
       >**Note**: The .csv file uploaded here must have the same column names as the one used during Feature Selection. However, the `Target` column must be removed. This is because, in this step the application will predict the target values.
 
-      ![MultipleTargetPrediction](assets/MultipleTargetPrediction.jpg)
+      ![MultipleTargetPrediction](assets/sample-ai-application/MultipleTargetPrediction.jpg)
 
 4. Click **Predict**.
   
    A prediction graph is displayed, which in this case predicts the target class/specimen to which the flower belongs.
 
-    ![predictionGraph](assets/predictionGraph.jpg)
+    ![predictionGraph](assets/sample-ai-application/predictionGraph.jpg)
 
 ----
 
@@ -248,7 +251,7 @@ Follow these steps to transfer files to the e-RT3 Plus device by using WinSCP:
 
     The *Login* window appears.
 
-    ![WinSCP_login](assets/WinSCP_login.jpg)
+    ![WinSCP_login](assets/sample-ai-application/WinSCP_login.jpg)
 
 2. In the **Host name** box, specify the IP address of the e-RT3 Plus device.
 3. In the **Port number** box, specify the port number as 22.
@@ -257,17 +260,17 @@ Follow these steps to transfer files to the e-RT3 Plus device by using WinSCP:
 
    The *WinSCP* window appears. The folder structure of the local PC is displayed on the left and the e-RT3 Plus device folder structure is displayed on the right.
 
-   ![WinSCP_mainWindow](assets/WinSCP_mainWindow.jpg)
+   ![WinSCP_mainWindow](assets/sample-ai-application/WinSCP_mainWindow.jpg)
 
 6. On the left panel, browse to the source folder location.
 7. On the right panel, browse to the destination folder location.
 8. Select the files you wish to transfer from the source folder and drag it to the destination folder.
 
     The file transfer starts.
-    ![WinSCP_fileTransfer](assets/WinSCP_fileTransfer.jpg)
+    ![WinSCP_fileTransfer](assets/sample-ai-application/WinSCP_fileTransfer.jpg)
 
 The transferred files appear in the destination folder.
-    ![WinSCP_destinationtransferred](assets/WinSCP_destinationtransferred.jpg)
+    ![WinSCP_destinationtransferred](assets/sample-ai-application/WinSCP_destinationtransferred.jpg)
 
 Similarly, you can transfer files from the e-RT3 Plus device to your local computer.
 

@@ -6,7 +6,7 @@ Azure IoT Runtime enables you to collect information and execute commands on Edg
 
 This is part one of a three-part series on using Azure Runtime Environment and e-RT3 Plus together to create bespoke solutions. In this article, we will demonstrate how to deploy Azure Runtime Environment on the e-RT3 Plus device.
 
-![Positioning diagram](assets/Positioning.jpg)
+![Positioning diagram](assets/albs_phase_1_update_cr/Positioning.jpg)
 
 To deploy Azure IoT Edge Runtime on e-RT3 Plus device, configuration must be performed both on the e-RT3 Plus and Azure Cloud. First, the Azure Runtime Environment is installed on e-RT3 Plus by executing commands through an SSH terminal. Once this is done, an IoT Hub is set up on Azure Portal and an Edge device is registered in it. Finally, the e-RT3 Plus and the Edge device in the Azure portal are connected using a connection string and the IoT Edge module is deployed to e-RT3 Plus.
 
@@ -14,7 +14,7 @@ To deploy Azure IoT Edge Runtime on e-RT3 Plus device, configuration must be per
 
 The following figure shows the workflow for deploying Azure Runtime Environment on e-RT3 Plus.
 
-![Workflow](assets/Workflow.jpg)
+![Workflow](assets/albs_phase_1_update_cr/Workflow.jpg)
 
 ## Prerequisites
 
@@ -74,16 +74,16 @@ Follow these steps to install Azure IoT Edge Runtime on e-RT3 Plus:
     > **Note**: For more information about enabling sudo user privileges, refer to [Enabling SUDO user](https://github.com/Yokogawa-Technologies-Solutions-India/e-RT3-docs/blob/master/Articles/Azure/Send-telemetry-data-from-e-RT3-to-azure-IoT-hub.md#enabling-sudo-user).
 
 4. To complete the Azure IoT Edge Runtime installation, perform the following steps:
-   1. Run the following command to install `libiothsm-std version 1.1.1`.
+   1. Run the following command to install `libiothsm-std version 1.1.4`.
 
         ```bash
-        curl -L https://github.com/Azure/azure-iotedge/releases/download/1.1.1/libiothsm-std_1.1.1-1_ubuntu18.04_armhf.deb -o libiothsm-std.deb && sudo dpkg -i ./libiothsm-std.deb
+        curl -L https://github.com/Azure/azure-iotedge/releases/download/1.1.4/libiothsm-std_1.1.4-1_ubuntu18.04_armhf.deb -o libiothsm-std.deb && sudo dpkg -i ./libiothsm-std.deb
         ```
 
-   2. Run the following command to install `iotedge version 1.1.1`.
+   2. Run the following command to install `iotedge version 1.1.4`.
 
         ```bash
-        curl -L https://github.com/Azure/azure-iotedge/releases/download/1.1.1/iotedge_1.1.1-1_ubuntu18.04_armhf.deb -o iotedge.deb && sudo dpkg -i ./iotedge.deb
+        curl -L https://github.com/Azure/azure-iotedge/releases/download/1.1.4/iotedge_1.1.4-1_ubuntu18.04_armhf.deb -o iotedge.deb && sudo dpkg -i ./iotedge.deb
         ```
 
 Azure IoT Edge Runtime is installed on e-RT3 Plus.
@@ -106,11 +106,11 @@ az iot hub device-identity create --hub-name YOUR_HUB_NAME --device-id YOUR_DEVI
 
 Here, `YOUR_HUB_NAME` is the name specified while creating the IoT Hub and `YOUR_DEVICE_ID` is the name of the device being registered.
 
-> **Note**: Save the `device connection string` obtained in step 5 of the registration procedure for future reference. This will be used to bind the e-RT3 Plus device with the Edge device created in Azure IoT Hub.
+> **Note**: Save the `DEVICE_CONNECTION_STRING` obtained in step 5 of the registration procedure for future reference. This will be used to bind the e-RT3 Plus device with the Edge device created in Azure IoT Hub.
 
 ### Connect IoT Runtime on e-RT3 Plus to Azure IoT Hub
 
-Now that Azure IoT Edge Runtime is installed on e-RT3 Plus, and the same device is registered on the IoT Hub, these two must be connected to establish communication between them. To do this, the `device connection string` obtained in the previous step must be specified in the `config.yaml` file. This file is generated during the installation of Azure IoT Edge Runtime environment.
+Now that Azure IoT Edge Runtime is installed on e-RT3 Plus, and the same device is registered on the IoT Hub, these two must be connected to establish communication between them. To do this, the `DEVICE_CONNECTION_STRING` obtained in the previous step must be specified in the `config.yaml` file. This file is generated during the installation of Azure IoT Edge Runtime environment.
 
 >**Note**: If you are using a proxy, refer to the steps described in [Configure an IoT Edge device to communicate through a proxy server](https://docs.microsoft.com/en-us/azure/iot-edge/how-to-configure-proxy-support?view=iotedge-2018-06) and then continue.
 
@@ -155,38 +155,33 @@ Follow these steps to deploy the IoT Hub on the e-RT3 Plus device:
 2. In the *Azure services* section, click **IoT Hub**.
 
    The *IoT Hub* page appears, displaying the list of created IoT Hubs.
-   ![Azure_IoTHub](assets/Azure_IoTHub.jpg)
+   ![Azure_IoTHub](assets/albs_phase_1_update_cr/Azure_IoTHub.jpg)
 3. Select the IoT Hub that you have created.
 
    The *IoT Hub Overview* page appears, displaying the details of the selected IoT Hub.
 4. On the left pane, under **Automatic Device Management**, select **IoT Edge**.
 
    The *IoT Edge devices* page appears, displaying the IoT Edge device that you created.
-   ![Azure_IoTHub_device](assets/Azure_IoTHub_device.jpg)
+   ![Azure_IoTHub_device](assets/albs_phase_1_update_cr/Azure_IoTHub_device.jpg)
 
 5. In the upper-left corner, click **Create Deployment**.
 
    The *Create Deployment* page appears.
 
 6. On the **Name and Label** tab, specify a unique name for the deployment in the **Name** box.
-   ![Azure_CreateDeployment](assets/Azure_CreateDeployment.jpg)
+   ![Azure_CreateDeployment](assets/albs_phase_1_update_cr/Azure_CreateDeployment.jpg)
 
 7. In the **Target Devices** tab, specify a priority from 0 to 10 in the **Priority** box.
 
    Here, zero is the lowest priority, and ten is the highest priority.
 
-   ![Azure_TargetDevices](assets/Azure_TargetDevices.png)
+   ![Azure_TargetDevices](assets/albs_phase_1_update_cr/Azure_TargetDevices.jpg)
 
-8. In the **Target Condition** box, specify the following condition.
-
-   ```bash
-   deviceId='{YOUR_DEVICE_ID}'
-   ```
-
-9. Click **Review + create**.
+8. Click **Review + create**.
 
    The details entered are validated and the *Review + create* page appears.
-10. Click **Create**.
+
+9. Click **Create**.
 
    The deployment is started. The deployment usually takes a while to complete, so you must wait before proceeding to the next step.
 
@@ -211,9 +206,9 @@ Follow these steps to verify the deployment:
 
    The *Device* page appears, displaying the deployment status in the **Modules** tab.
 
-   ![Azure_DeploymentStatus](assets/Azure_DeploymentStatus.jpg)
+   ![Azure_DeploymentStatus](assets/albs_phase_1_update_cr/Azure_DeploymentStatus.jpg)
 
-   If the deployment is successful, the **Runtime Status** is displayed as `running` for each module. The modules listed here are the same modules listed in the e-RT3 Plus device as verified in the last step of [Connect IoT Runtime on e-RT3 Plus to Azure IoT Hub](#connect-iot-runtime-on-e-rt3-plus-to-azure-iot-hub).
+   If the deployment is successful, the **Runtime Status** of the `edgeAgent` module is displayed as `running`. The modules listed here are the same modules listed in the e-RT3 Plus device as verified in the last step of [Connect IoT Runtime on e-RT3 Plus to Azure IoT Hub](#connect-iot-runtime-on-e-rt3-plus-to-azure-iot-hub).
 
 ## Conclusion
 

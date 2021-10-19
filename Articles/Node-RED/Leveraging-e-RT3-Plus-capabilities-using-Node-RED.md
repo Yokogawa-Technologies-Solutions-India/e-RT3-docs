@@ -8,7 +8,7 @@ You can leverage the capabilities of e-RT3 Plus by using Node-RED to develop ind
 
 In this article, we will demonstrate how to create a Node-RED flow for collecting, storing, and visualizing data using e-RT3 Plus. To create the flow, open source tools such as InfluxDB, Node-RED, and Grafana are used.
 
-![Positioning](assets/positioning.png)
+![Positioning](assets/node-red-1/positioning.png)
 
 Node-RED is installed in e-RT3 Plus. InfluxDB and Grafana are installed on a server PC. Data sent to e-RT3 Plus is picked up by Node-RED. Node-RED then processes this data and writes it into InfluxDB. Grafana, which is connected to InfluxDB, processes the data and provides powerful data visualization features.
 
@@ -16,7 +16,7 @@ Node-RED is installed in e-RT3 Plus. InfluxDB and Grafana are installed on a ser
 
 The following figure shows the workflow for collecting and visualizing data by using InfluxDB and Grafana with Node-RED.
 
-![Workflow](assets/Workflow.png)
+![Workflow](assets/node-red-1/Workflow.png)
 
 ---
 
@@ -37,7 +37,7 @@ For more information on how to install InfluxDB and Grafana on the e-RT3 Plus de
 
 ### Hardware wiring
 
-![HardwareWiringDraw](assets/HardwareWiringDraw.png)
+![HardwareWiringDraw](assets/node-red-1/HardwareWiringDraw.png)
 
 We will be using three I/O modules of the e-RT3 Plus device for this example.
 
@@ -260,10 +260,10 @@ Follow these steps to install InfluxDB nodes:
 
 1. Open the Node-RED editor.
 2. In the upper-right corner, select **Menu > Manage** palette.
-    ![Manage Palette](assets/MicrosoftTeams-image-ManagePallete.png)
+    ![Manage Palette](assets/node-red-1/MicrosoftTeams-image-ManagePallete.png)
 
 3. In the dialog box that appears, on the left pane, click the **Palette** tab, and then click the **Install** tab.
-    ![Install influxDB nodes](assets/MicrosoftTeams-image-Manage_Pallete.png)
+    ![Install influxDB nodes](assets/node-red-1/MicrosoftTeams-image-Manage_Pallete.png)
 
 4. In the **Search** box, type `node-red-contrib-influxdb`.
 
@@ -322,12 +322,12 @@ Follow these steps to create a simple Node-RED flow that reads data and writes i
 
 1. Open the Node-RED editor.
 2. On the left pane, select the **inject** node and drag it onto the workspace. This node will inject the data at a specified time interval.
-    ![inject node](assets/inject-node.PNG)
+    ![inject node](assets/node-red-1/inject-node.PNG)
 
 3. Double-click the created node and configure the properties to read data every five seconds.
 4. In the upper-right corner of the *Properties* page, click **Done**.
 5. On the left pane, select the **readM3IoRegister** node and drag it onto the workspace. This node will read data from the AD08 registers.  
-    ![m3io nodes](assets/read-node.PNG)
+    ![m3io nodes](assets/node-red-1/read-node.PNG)
 6. Double-click the created node and configure its properties as necessary.
 
     >**Note**: In this example, according to our hardware configuration, the data is read from the register positions 2 and 3 in the AD08 module, which is located in slot 4. Therefore, **Slot** and **Position** is specified as 4 and 2 respectively. However, you must verify the slot location and positions from the Web Maintenance Tool before specifying the values.
@@ -338,23 +338,23 @@ Follow these steps to create a simple Node-RED flow that reads data and writes i
 
     >**Note**: Again, the position must be verified from the Web Maintenance Tool and specified accordingly.
 8. Now that we have read the data, we must create a node to write this data into the database. On the left pane, select the **influxdb out** node and drag it onto the workspace. 
-![influx db widget](assets/influx2.PNG)
+![influx db widget](assets/node-red-1/influx2.PNG)
 
 9. Double-click the created node and configure its properties as necessary.
 
     >**Note**: The database name must match the name specified while creating the InfluxDB database,  the time precision must be in seconds, and the server URL must be `http://{SERVER_PC_IP_ADDRESS}:{PORT_NUMBER}`. Here, {SERVER_PC_IP_ADDRESS} is the IP address of the server PC, and {PORT_NUMBER} is the configured port. The default port number is 8086.
 
-     ![configure db properties](assets/influx1.PNG)
+     ![configure db properties](assets/node-red-1/influx1.PNG)
 
 10. On the left pane, select the **debug** node and drag it onto the workspace. This node will verify the values that are being received. Edit the properties of the node as necessary.
 11. Use connectors to connect all the nodes. The following figure shows the final flow to be created.
-    ![Final flow](assets/flow.PNG)
+    ![Final flow](assets/node-red-1/flow.PNG)
 
 12. On the menu bar, click **Deploy** to activate the flow.
 13. To start the flow, click the **Inject** button. This will start injecting the data into the flow.
 14. In the upper-right corner of the Node-RED editor window, click the **Debug** tab.
 
-    ![Final flow](assets/debugtab.PNG)
+    ![Final flow](assets/node-red-1/debugtab.PNG)
 
 The debug pane appears, displaying the values being read every five seconds.
 
@@ -377,15 +377,15 @@ Follow these steps to connect Grafana to InfluxDB:
 4. In the upper-left corner, click the Grafana icon to open the side menu.
 5. From the side menu, click the **Settings** icon, and select **Configuration > Data Sources**.
 6. On the page that appears, click **Add data source**.
-    ![Add data source](assets/Add_data_source.png)
+    ![Add data source](assets/node-red-1/Add_data_source.png)
 
 7. From the list that appears, select **InfluxDB**.
-    ![Add data source](assets/grafana-searchbox.png)
+    ![Add data source](assets/node-red-1/grafana-searchbox.png)
     The *Settings* page appears.
 
     Alternatively, you can use the Search box to locate InfluxDB.
 8. On the *Settings* page, specify the necessary details.
-![Add data source](assets/InfluxDBsettings.png)
+![Add data source](assets/node-red-1/InfluxDBsettings.png)
 The following table describes the values to be specified in the corresponding fields on the *Settings* page.
 
     **Name        :** Provide a suitable name for the data source.
@@ -395,7 +395,7 @@ The following table describes the values to be specified in the corresponding fi
     **Database    :** The database name specified while [creating the InfluxDB](#create-influxdb-database) database.
 
 9. Click **Save + Test**.
-    ![Add data source](assets/grafana-save-and-test.png)
+    ![Add data source](assets/node-red-1/grafana-save-and-test.png)
 
 For more information about using InfluxDB in Grafana, refer to the [product documentation](https://grafana.com/docs/grafana/latest/datasources/influxdb/).
 
@@ -407,13 +407,13 @@ Follow these steps to visualize InfluxDB data on Grafana:
 1. In the Grafana window, on the left pane, click the **+** icon and select **Dashboard**.
 2. Click **Add new panel**.
 3. In the lower-left corner, click the **Query** tab.
-    ![grafana-dasahboard](assets/dashboard.png)
+    ![grafana-dasahboard](assets/node-red-1/dashboard.png)
 
 4. In the form that appears, select the parameter to be visualized.
 
     You can also customize the appearance by using controls that are available on the right pane.
 5. In the upper-right corner, click **Save** and then click **Apply**.
-    ![visualize data](assets/dashboard1.png)
+    ![visualize data](assets/node-red-1/dashboard1.png)
 The data from the InfluxDB appears according to the configured visualization settings.
 
 You can also add additional panes as well as measurements that can be displayed simultaneously.
@@ -550,7 +550,7 @@ Follow these steps to set the proxy settings for Docker in Windows:
 
         The Docker Desktop window appears.
 
-        ![dockerwelcome](assets/dockerwelcomepage.jpg)
+        ![dockerwelcome](assets/node-red-1/dockerwelcomepage.jpg)
 
    2. In the upper-left corner, click the **Settings** icon.
 

@@ -8,7 +8,7 @@ The aim of this article is to demonstrate how to use AI applications on e-RT3 Pl
 
 The simulation and prediction is achieved by using open source tools and free software, such as Node-RED, InfluxDB, Grafana, and Modbus. Modbus is a communication protocol used for transmitting information between electronic devices over serial lines or Ethernet, and is commonly used in process and factory automation.
 
-![positioning.png](./assets/positioning.png)
+![positioning.png](./assets/node-red-2/positioning.png)
 
 The above figure displays two e-RT3 Plus devices. The first e-RT3 Plus has been referred to as simulation e-RT3 Plus and the second has been referred to as prediction e-RT3 Plus. In addition, it shows the Server PC on which InfluxDB, Grafana, and the Modbus Slave Simulator are installed.
 
@@ -26,7 +26,7 @@ The Iris dataset can be replaced with any other dataset, or you can do away with
 
 The following figure shows the workflow for collecting and visualizing data by using InfluxDB and Grafana with Node-RED.
 
-![Workflow.jpg](./assets/Workflow.png)
+![Workflow.jpg](./assets/node-red-2/Workflow.png)
 
 ---
 
@@ -156,7 +156,7 @@ Follow these steps to create the flow:
     b. Double-click the created node.
 
     The properties of the selected node are displayed on the right pane.
-    ![inject_flow1.jpg](./assets/inject_flow1.jpg)
+    ![inject_flow1.jpg](./assets/node-red-2/inject_flow1.jpg)
 
     c. In the **Name** box, specify the name of the node.
 
@@ -173,7 +173,7 @@ Follow these steps to create the flow:
     b. Double-click the created node.
 
     The properties of the selected node are displayed on the right pane.
-    ![filein_flow1.jpg](./assets/filein_flow1.jpg)
+    ![filein_flow1.jpg](./assets/node-red-2/filein_flow1.jpg)
 
     c. In the **Filename** box, specify the absolute path of the Iris dataset in the simulation e-RT3 Plus.
 
@@ -192,7 +192,7 @@ Follow these steps to create the flow:
     b. Double-click the created node.
 
     The properties of the selected node are displayed on the right pane.
-    ![csv_flow_1.jpg](./assets/csv_flow_1.jpg)
+    ![csv_flow_1.jpg](./assets/node-red-2/csv_flow_1.jpg)
 
     c. In the **Name** box, specify the name of the node.
 
@@ -213,7 +213,7 @@ Follow these steps to create the flow:
     b. Double-click the created node.
 
     The properties of the selected node are displayed on the right pane.
-    ![function_flow1.jpg](./assets/function_flow1.jpg)
+    ![function_flow1.jpg](./assets/node-red-2/function_flow1.jpg)
     c. In the **Name** box, specify the name of the node.
 
     d. Click the **Function** tab and type the following code in the editor.
@@ -228,7 +228,7 @@ Follow these steps to create the flow:
 
 8. Use connectors to connect all the nodes. The final flow should look something like this:
 
-    ![flow_1.jpg](./assets/flow_1.jpg)
+    ![flow_1.jpg](./assets/node-red-2/flow_1.jpg)
 9. On the menu bar, click **Deploy** to activate the flow.
 
     The data from the dataset is set to the flow context.
@@ -247,7 +247,7 @@ Follow these steps to create the Node-RED flow:
 
     The properties of the selected node are displayed on the right pane.
 
-    ![inject_flow2.jpg](./assets/inject_flow2.jpg)
+    ![inject_flow2.jpg](./assets/node-red-2/inject_flow2.jpg)
 
     c. In the **Name** box, specify the name of the node.
 
@@ -300,7 +300,7 @@ Follow these steps to create the Node-RED flow:
 
     The properties of the selected node are displayed on the right pane.
 
-    ![modbus_write_flow2.jpg](./assets/modbus_write_flow2.jpg)
+    ![modbus_write_flow2.jpg](./assets/node-red-2/modbus_write_flow2.jpg)
 
     c. In the **Name** box, specify the name of the node.
 
@@ -322,13 +322,13 @@ Follow these steps to create the Node-RED flow:
 
 4. To get the output message, on the left pane, select the **debug** node and drag it onto the work area twice.  Use connectors to connect all the nodes. The final flow should look something like this:
 
-    ![flow_2.jpg](./assets/flow_2.jpg)
+    ![flow_2.jpg](./assets/node-red-2/flow_2.jpg)
 5. On the menu bar, click **Deploy** to activate the flow.
 
     Data from the Iris dataset is transmitted to the Modbus Slave Simulator.
 6. In the upper-right corner of the e-RT3 Node window, click the **Debug** tab.
 
-    ![debug.jpg](./assets/debug.jpg)
+    ![debug.jpg](./assets/node-red-2/debug.jpg)
     
     Debug messages appear at an interval of 10 seconds in the Debug window.
 
@@ -369,7 +369,7 @@ Follow these steps to create a flow that writes the incoming Modbus data into In
 
     The properties of the selected node are displayed on the right pane.
 
-    ![modbus_read_flow3.jpg](./assets/modbus_read_flow3.jpg)
+    ![modbus_read_flow3.jpg](./assets/node-red-2/modbus_read_flow3.jpg)
 
     c. In the **Name** box, specify the name of the node.
 
@@ -460,7 +460,7 @@ Follow these steps to create a flow that writes the incoming Modbus data into In
 
     The properties of the selected node are displayed on the right pane.
 
-    ![influxdbOut_flow3.jpg](./assets/influxdbOut_flow3.jpg)
+    ![influxdbOut_flow3.jpg](./assets/node-red-2/influxdbOut_flow3.jpg)
 
     c. In the **Name** box, specify the name of the node.
 
@@ -482,7 +482,7 @@ Follow these steps to create a flow that writes the incoming Modbus data into In
 
 7. Use connectors to connect all the nodes in the following manner.
 
-    ![CreateModelFlow.jpg](./assets/CreateModelFlow.jpg)
+    ![CreateModelFlow.jpg](./assets/node-red-2/CreateModelFlow.jpg)
 
 8. On the menu bar, click **Deploy** to activate the flow.
 
@@ -597,7 +597,7 @@ Follow these steps to start the prediction of the incoming live data:
 
     The properties of the selected node are displayed on the right pane.
 
-    ![httpReq_flow3.jpg](./assets/httpReq_flow3.jpg)
+    ![httpReq_flow3.jpg](./assets/node-red-2/httpReq_flow3.jpg)
 
     c. From the Method drop-down list, select **POST**.
 
@@ -621,7 +621,7 @@ Follow these steps to start the prediction of the incoming live data:
 
     The properties of the selected node are displayed on the right pane.
 
-    ![switch_flow3.jpg](./assets/switch_flow3.jpg)
+    ![switch_flow3.jpg](./assets/node-red-2/switch_flow3.jpg)
 
     c. In the **Name** box, specify the name of the node.
 
@@ -684,7 +684,7 @@ Follow these steps to start the prediction of the incoming live data:
 
 8. Now we have all the necessary nodes on the work area. Use connectors to connect all the nodes. The final flow should look something like this.
 
-    ![FinalFlow3.jpg](./assets/FinalFlow3.jpg)
+    ![FinalFlow3.jpg](./assets/node-red-2/FinalFlow3.jpg)
 
 9. On the menu bar, click **Deploy** to activate the flow.
 
@@ -702,7 +702,7 @@ You can customize the dashboard by using various visualization tools. Moreover, 
 
 The following figure shows an example of how gauge plots, line plots, and bar plots are used to visualize the data:
 
-![grafana.jpg](./assets/grafana.jpg)
+![grafana.jpg](./assets/node-red-2/grafana.jpg)
 
 For more information about how to configure Grafana and display timeseries data using its powerful graphics on a dashboard, refer to [Configure Grafana to display the data](https://github.com/Yokogawa-Technologies-Solutions-India/e-RT3-docs/blob/master/Articles/Node-RED/Leveraging-e-RT3-Plus-capabilities-using-Node-RED.md#configure-grafana-to-display-the-data).
 

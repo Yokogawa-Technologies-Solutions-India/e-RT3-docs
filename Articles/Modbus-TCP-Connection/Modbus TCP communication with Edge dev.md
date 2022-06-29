@@ -13,7 +13,7 @@ The [Modbus protocol](https://modbus.org/) is designed to enable communication b
 Today, the Modbus protocol has evolved to support TCP/IP communication. With this feature, Modbus messages can be exchanged over the internet. Modbus TCP communication uses a Client/Server architecture, in which the client is the Modbus Master, and the server is the Modbus Slave.
 Additionally, for devices that support Python programming, you can use the services in the PyModbus Python package to manage Modbus TCP communication.
 
-For more information on Modbus, refer to the [official website](#https://modbus.org/).
+For more information on Modbus, refer to the [official website](https://modbus.org/).
 
 ## System positioning
 

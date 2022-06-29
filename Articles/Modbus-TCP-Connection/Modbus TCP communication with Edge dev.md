@@ -94,7 +94,7 @@ Follow these steps to establish Modbus TCP communication:
     >- The sample server program is available [here](https://github.com/riptideio/pymodbus/blob/v2.5.2/examples/common/synchronous_server.py). This article uses the version v2.5.2 of the code.
     >- For more information about the license of the sample code, click [here](https://github.com/riptideio/pymodbus/blob/v2.5.2/LICENSE).
 
-2. To access the coils and registers, run the sample program, (synchronous_client.py) from the PyModbus package in the client. Ensure that you replace <IP_ADDRESS_OF_SERVER_PC> with the IP address of the computer on which the server is running in the program code.
+2. To access the coils and registers, run the client program on the client edge device. Ensure that you replace <IP_ADDRESS_OF_SERVER_PC> with the IP address of the computer on which the server is running in the program code.
 
     ```bash
     python3 <client_program_name>.py

@@ -272,7 +272,7 @@ e-RT3 Plus can easily communicate with devices using the Modbus TCP Protocol and
 
 ## References
 
-1. [AI Platform for industries | Yokogawa Electric](https://www.yokogawa.co.jp/solutions/products-platforms/control-system/real-time-os-controller/ert3-ai-platform/)
+1. [AI Platform for industries | Yokogawa Electric](https://www.yokogawa.com/solutions/products-platforms/control-system/ert3-embedded-controller/#Overview)
 2. [The Modbus Organization](https://modbus.org/)
 3. [GitHub - riptideio/pymodbus: A full modbus protocol written in python](https://github.com/riptideio/pymodbus) 
 4. [Pymodbus - PyModbus 2.5.0 documentation](https://pymodbus.readthedocs.io/en/latest/source/library/modules.html) 

@@ -23,5 +23,6 @@ Articles/Local_blob_storage/Achieving_zero-loss_data_transmission_from_e-RT3_Plu
 # TensorFlow
 Articles/TensorFlow/Running_a_basic_TensorFlow_Lite_model_on_e-RT3_Plus.md @Yokogawa-BrigitteZacharia
 
-# TensorFlow
+# Modbus
 Articles/Modbus-TCP-Connection/Modbus TCP communication with Edge dev.md @Yokogawa-BrigitteZacharia
+Articles/Modbus-TCP-Connection/Modbus_InfluxDB_Grafana.md @Yokogawa-BrigitteZacharia

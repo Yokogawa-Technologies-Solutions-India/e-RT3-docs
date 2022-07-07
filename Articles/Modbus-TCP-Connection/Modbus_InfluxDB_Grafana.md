@@ -141,7 +141,7 @@ Follow these steps to configure Modbus server:
 1. Start the Modbus server on the computer.
 2. To rewrite the values periodically, modify the program [updating_server.py](https://github.com/riptideio/pymodbus/blob/v2.5.2/examples/common/updating_server.py) (You can access the license [here](https://github.com/riptideio/pymodbus/blob/v2.5.2/LICENSE)).
 
-   In this example, we store two time-series data values in the holding register and one binary data in the coil.
+   In this example, we store two time-series data values in the holding register and Boolean data in the coil.
    1. Modify the following code in the `updating_write` function.
 
       ```bash
@@ -467,7 +467,7 @@ Follow these steps to create the dashboard:
    >**Note**: You can also configure the query settings with the following query command.
    >`SELECT mean("holding_register_3") FROM "sample_measurement" WHERE $timeFilter GROUP BY time(1m)`
 
-### Visualizing binary data
+### Visualizing Boolean data
 
 Follow these steps to display the latest status of coil 1.
 

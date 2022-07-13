@@ -430,8 +430,6 @@ Follow these steps to register the `sampleDB` database that was created in the s
 
    The settings page appears.
 
-
-
 3. Enter the following details and click **Save & test**.
 
    | Setting name | Setting value|

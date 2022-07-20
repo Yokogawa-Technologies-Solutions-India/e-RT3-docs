@@ -72,7 +72,7 @@ Follow these steps to install Node.js and Node-RED on the Edge device:
     sudo npm install -g --unsafe-perm node-red
     ```
 
-   If the command is executed successfully, the following output is displayed
+   If the command is executed successfully, the following output is displayed.
 
     ```bash
     + node-red@2.2.0

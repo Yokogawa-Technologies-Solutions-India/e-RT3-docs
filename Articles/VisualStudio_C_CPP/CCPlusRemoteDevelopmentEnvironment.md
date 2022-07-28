@@ -93,14 +93,14 @@ Follow these steps to configure project settings:
 2. From the Configuration drop-down list, select **Debug**.
 3. From the Platform drop-down list,  select **ARM**.
 
-    ![07_ConfigureProperties](assets/07_ConfigureProperties.png)
+    ![07_ConfigureProperties](assets/07_ConfigureProperties.PNG)
 
 4. On the left pane, select **General**.
 5. On the right pane, from the **Remote Build Machine** drop-down list, select the added device.
 6. Click **Apply**.
 7. On the left pane, select **Debugging**.
 
-    ![08_ConfigureDebugProperties](assets/08_ConfigureDebugProperties.png)
+    ![08_ConfigureDebugProperties](assets/08_ConfigureDebugProperties.PNG)
 
 8. From the **Remote Debug Machine** drop-down list, select the added device.
 9. From the **Debugging Mode** drop-down list, select `gdbserver`, and then click **Apply**.
@@ -111,11 +111,11 @@ Follow these steps to build and debug a project:
 
 1. After selecting **Debug** for Configuration and **ARM** for Platform, place a break point anywhere in the source code to build and run the program.
 
-    ![09_CreateSampleCode](assets/09_CreateSampleCode.png)
+    ![09_CreateSampleCode](assets/09_CreateSampleCode.PNG)
 
     If the program stops at the break point, it indicates that the project is created successfully.
 
-    ![10_SampleCodeBreakpoint](assets/10_SampleCodeBreakpoint.png)
+    ![10_SampleCodeBreakpoint](assets/10_SampleCodeBreakpoint.PNG)
 
     The output is displayed in the Linux console window.
 
@@ -139,12 +139,14 @@ Follow these steps to add source files:
 
 ### Library links
 
+Follow these steps to add library links:
+
 1. Open the Project properties.
 2. On the left pane, select **Configuration Properties** **>** **Linker** **>** **Input** **>** **Library dependencies**, and then click **Edit**.
 
     ![14_AddLink](assets/14_AddLink.png)
 
-3. Enter the name of the library to be added. 
+3. Enter the name of the library to be added.
 
    The following image shows the scenario when `libm` is added.
 

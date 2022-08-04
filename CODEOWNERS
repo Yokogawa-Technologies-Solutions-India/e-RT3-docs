@@ -26,3 +26,7 @@ Articles/TensorFlow/Running_a_basic_TensorFlow_Lite_model_on_e-RT3_Plus.md @Yoko
 # Modbus
 Articles/Modbus-TCP-Connection/Modbus-TCP-communication-with-Edge-dev.md @Yokogawa-BrigitteZacharia
 Articles/Modbus-TCP-Connection/Modbus_InfluxDB_Grafana.md @Yokogawa-BrigitteZacharia
+
+# VisualStudio
+Articles/VisualStudio_C_CPP/CCPlusRemoteDevelopmentEnvironment.md @Yokogawa-BrigitteZacharia
+Articles/VisualStudio_C_CPP/VisualStudioCrossCompilation.md @Yokogawa-BrigitteZachariaVisualStudioCrossCompilationVisualStudioCrossCompilation

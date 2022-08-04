@@ -1,4 +1,4 @@
-# Using Visual Studio to cross compile C/C++ for a device on which Ubuntu is installed
+# Cross compiling C/C++ programs for  Ubuntu installed on Edge devices
 
 ## Introduction
 

@@ -128,7 +128,7 @@ To allow sending and receiving messages between the Edge device and AWS, we must
     > **Note**: These files are required to [enable message transmission](#message-transmission) between the Edge device and AWS IoT core. Therefore, you must save these files locally on your computer for further usage.
 
 5. Click **Done**.
-    
+
     The Edge device is registered as an IoT device on AWS.
 
 ## Configuring Edge device settings

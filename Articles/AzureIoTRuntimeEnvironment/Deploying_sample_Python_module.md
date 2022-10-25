@@ -49,7 +49,8 @@ You must set up a container engine on the computer in which you want to develop 
 
 Follow these steps to set up Docker Desktop on your computer:
 
-1. Install [Docker Desktop](https://hub.docker.com/editions/community/docker-ce-desktop-windows/). For Windows Home and other operating systems, select the corresponding OS from the menu on the left and continue the installation. Ensure that you enable Hyper-V backend during installation.
+1. Download [Docker Desktop](https://hub.docker.com/editions/community/docker-ce-desktop-windows/). For Windows Home and other operating systems, select the corresponding OS from the menu on the left and continue the installation. Ensure that you enable Hyper-V backend during installation.
+
     For more information on how to install Docker Desktop, refer to [Install Docker Desktop on Windows](https://docs.docker.com/desktop/install/windows-install/).
 
     >**Note**: Ensure that your computer meets the system requirements specified on [Install Docker Desktop on Windows](https://docs.docker.com/desktop/install/windows-install/) before installing Docker Desktop.
@@ -353,7 +354,7 @@ Follow these steps to deploy the images from Azure Portal:
 
    ![20_IoTEdgeModule](assets/20_IoTEdgeModule.png)
 
-8. Configure the parameters of the IoT Edge module as described in the following table and click the **Add**.
+8. Configure the parameters of the IoT Edge module as described in the following table and click **Add**.
 
     | Setting item of module |Information to be entered|
     |---|---|

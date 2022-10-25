@@ -1,35 +1,50 @@
-# Azure
-Articles/Azure/Send-telemetry-data-from-e-RT3-to-azure-IoT-hub.md @Yokogawa-Tamajit 
+# CODEOWNERS
 
-# e-RT3
+## Azure
+
+Articles/Azure/Send-telemetry-data-from-e-RT3-to-azure-IoT-hub.md @Yokogawa-Tamajit
+
+## e-RT3
+
 Articles/e-RT3/Communication-with-e-RT3.md @Yokogawa-Sanath
 
-# AWS
+## AWS
+
 Articles/AWS/Installing_AWS-IoT_Greengrass.md @Yokogawa-Nilesh
 Articles/AWS/AWSIOT_Edgedevice.md @Yokogawa-BrigitteZacharia
 Articles/AWS/InstallAWS_Ubuntu.md @Yokogawa-BrigitteZacharia
 
-# AI
+## AI
+
 Articles/AI/Sample_AI_Application.md @Yokogawa-BrigitteZacharia
 
-# Node-RED
+## Node-RED
+
 Articles/Node-RED/Leveraging-e-RT3-Plus-capabilities-using-Node-RED.md @Yokogawa-BrigitteZacharia
 Articles/Node-RED/Achieving_AI_Prediction_using_e-RT3_Plus.md @Yokogawa-BrigitteZacharia
 Articles/Node-RED/BYOML_on_e-RT3_Plus.md @Yokogawa-BrigitteZacharia
 
-# Local_blob_storage
+## Local_blob_storage
+
 Articles/Local_blob_storage/Installing_Azure_Runtime_on_e-RT3.md @Yokogawa-BrigitteZacharia
 Articles/Local_blob_storage/Implementing_local_Blob_storage_on_e-RT3_Plus.md @Yokogawa-BrigitteZacharia
 Articles/Local_blob_storage/Achieving_zero-loss_data_transmission_from_e-RT3_Plus.md @Yokogawa-BrigitteZacharia
 
-# TensorFlow
+## TensorFlow
+
 Articles/TensorFlow/Running_a_basic_TensorFlow_Lite_model_on_e-RT3_Plus.md @Yokogawa-BrigitteZacharia
 
-# Modbus
+## Modbus
+
 Articles/Modbus-TCP-Connection/Modbus-TCP-communication-with-Edge-dev.md @Yokogawa-BrigitteZacharia
 Articles/Modbus-TCP-Connection/Modbus_InfluxDB_Grafana.md @Yokogawa-BrigitteZacharia
 Articles/Modbus-TCP-Connection/Modbus_TCPCommunication_NodeRED.md @Yokogawa-BrigitteZacharia
 
-# VisualStudio
+## VisualStudio
+
 Articles/VisualStudio_C_CPP/CCPlusRemoteDevelopmentEnvironment.md @Yokogawa-BrigitteZacharia
 Articles/VisualStudio_C_CPP/VisualStudioCrossCompilation.md @Yokogawa-BrigitteZacharia
+
+## AzureIoTRuntimeEnvironment
+
+Articles\AzureIoTRuntimeEnvironment\Deploying_sample_Python_module.md @Yokogawa-BrigitteZacharia

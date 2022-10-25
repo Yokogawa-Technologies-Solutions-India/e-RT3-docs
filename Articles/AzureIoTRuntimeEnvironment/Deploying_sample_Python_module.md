@@ -388,7 +388,7 @@ Follow these steps to deploy the images from Azure Portal:
 
 12. Click **Refresh**.
 
-    The Module list is updated and you can see the module that you deployed to the Edge device is added to the Modules list and the status details are displayed.
+    The module that you deployed to the Edge device is displayed in the Modules list.
 
 ### Verifying module operation
 

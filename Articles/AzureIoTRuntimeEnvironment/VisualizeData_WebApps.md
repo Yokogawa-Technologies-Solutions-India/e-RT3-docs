@@ -53,6 +53,7 @@ Before trying to visualize the data in the IoT Hub using Azure App Service, you 
 ## Workflow
 
 To create a web application that visualizes the data received at the IoT Hub using Azure App services, we must complete the following steps:
+
    1. [Adding a consumer group to the IoT Hub](#adding-a-consumer-group-to-the-iot-hub)
    2. [Obtaining the IoT Hub service connection string](#obtaining-the-iot-hub-service-connection-string)
    3. [Creating web application](#creating-web-application)
@@ -178,7 +179,8 @@ Follow these steps to configure the settings of the App Service:
 
     The **Git Clone Uri** is displayed in the **Local Git** section. Since this is required when you deploy the web application, copy and save it for future use.
 
-9. In the **User scope** section, specify the **Username**, **Password** and **Confirm Password**. These credentials will be required when you deploy the web application
+9. In the **User scope** section, specify the **Username**, **Password** and **Confirm Password**. These credentials will be required when you deploy the web application.
+
    ![09_AccountInfo](assets/09_AccountInfo.png)
    >**Note**: You can also change the username and password in this User scope section.
 

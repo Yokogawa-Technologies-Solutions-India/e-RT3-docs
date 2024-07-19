@@ -1,0 +1,237 @@
+[
+    {
+        "id": "32c84381505baa01",
+        "type": "tab",
+        "label": "eRT3_Sushi_Application_NodeRED_flow",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "5e2853d13dee2af2",
+        "type": "http in",
+        "z": "32c84381505baa01",
+        "name": "",
+        "url": "/sushidata",
+        "method": "post",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 220,
+        "y": 380,
+        "wires": [
+            [
+                "abf8c8dd4b38d415",
+                "49893c4c01171d49",
+                "00b677f0511a4572"
+            ]
+        ]
+    },
+    {
+        "id": "d2e5386c226086c2",
+        "type": "http response",
+        "z": "32c84381505baa01",
+        "name": "http response",
+        "statusCode": "",
+        "headers": {},
+        "x": 580,
+        "y": 380,
+        "wires": []
+    },
+    {
+        "id": "abf8c8dd4b38d415",
+        "type": "template",
+        "z": "32c84381505baa01",
+        "name": "page",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "html",
+        "syntax": "mustache",
+        "template": "<html>\n    <head></head>\n    <body>\n        <h1>Hello {{payload}}</h1>\n    </body>\n</html>",
+        "output": "str",
+        "x": 410,
+        "y": 380,
+        "wires": [
+            [
+                "d2e5386c226086c2"
+            ]
+        ]
+    },
+    {
+        "id": "49893c4c01171d49",
+        "type": "function",
+        "z": "32c84381505baa01",
+        "name": "sushiTranslation",
+        "func": "/* ***********************************************************************************************\n\nYOKOGAWA        SushiToMQTT\n\nDescription:\nThis javascript converts a Yokogawa Sushi sensor message to induvidual messages that can be\nsend with MQTT. \nBefore publishing messages to MQTT it requires a \"Initialization information (INI)\"-message to get\nthe sensor name. This name will be use in the topic of published MQTT messages.\nThe MQTT messages will exist of \"SushiSensor/<sensorname>/<topic>\"\nThe topics are:\n    Z-Acceleration\n    Z-Velocity\n    Temperature\n    XYZ-Acceleration\n    XYZ-Velocity\n    X-Acceleration\n    X-Velocity\n    Y-Acceleration\n    Y-Velocity\n    Uptime\n    BatteryLeft\n    RSSI\n    PER\n    SNR\n    Longitude\n    Latitude\n\nThe payload is an ascii string that represents the value.\n\nExample:\nTopic: SushiSensor/VTI1725/Temperature          Payload: 21.3\n\nVersion\n0.1     Dec-2018    Inital version\n0.2     Jun-2019    Changed input payload from UTF-8 to Bytes\n0.4     Nov-2020    Added extra sushi sensors\n        Jun-2021    Fixed issues and made improvements\n                        Check before writing to file if the senser is known to prevent huge list in save file\n                        (Added support for device type)\n\n\n*********************************************************************************************** */\n\nvar MqttMsgs = [];\nvar SUSHI_SENSOR =  \"SUSHI_SENSOR\";          // This is the first part of the mqtt topic\n\nvar SUSHI_PR_SENSOR = \"SUSHI_PR_SENSOR\";\nvar SUSHI_T_SENSOR = \"SUSHI_T_SENSOR\";\nvar SUSHI_V_SENSOR = \"SUSHI_V_SENSOR\";\n\nvar ZACC_TOPIC =    \"Z_ACCELERATION\";\nvar ZVEL_TOPIC =    \"Z_VELOCITY\";\nvar TEMP_TOPIC =     \"TEMPERATURE\";\nvar ZSTAT_TOPIC =      \"Z_STATUS\";\nvar XYZACC_TOPIC =  \"XYZ_ACCELERATION\";\nvar XYZVEL_TOPIC =  \"XYZ_VELOCITY\";\nvar XYZSTAT_TOPIC =    \"XYZ_STATUS\";\nvar XACC_TOPIC =    \"X_ACCELERATION\";\nvar XVEL_TOPIC =    \"X_VELOCITY\";\nvar XSTAT_TOPIC =      \"X_STATUS\";\nvar YACC_TOPIC =    \"Y_ACCELERATION\";\nvar YVEL_TOPIC =    \"Y_VELOCITY\";\nvar YSTAT_TOPIC =      \"Y_STATUS\";\nvar UPT_TOPIC =     \"UPTIME\";\nvar BAT_TOPIC =     \"BATTERYLEFT\";\nvar RSSI_TOPIC =    \"RSSI\";\nvar PER_TOPIC =     \"PER\";\nvar SNR_TOPIC =     \"SNR\";\nvar LONG_TOPIC =    \"LONGITUDE\";\nvar LAT_TOPIC =     \"LATITUDE\";\nvar DIAG_TOPIC =    \"DIAG\";\nvar DIAGDETAIL_TOPIC =    \"DIAG_DETAIL\";\n\n\nvar ALT_TOPIC =   \"ALTITUDE\";\nvar VENDORID_TOPIC = \"VENDOR_ID\";\nvar DEV_TYPE_TOPIC = \"DEV_TYPE\";\nvar DEV_REV_TOPIC =  \"DEV_REV\";\nvar PRESS_TOPIC =    \"PRESSURE\";\nvar PRESS_STAT_TOPIC = \"PRESSURE_STATUS\";\nvar TEMP_STAT_TOPIC = \"TEMP_STATUS\";\n\nvar TEMP1_TOPIC = \"TEMPERATURE1\";\nvar TEMP2_TOPIC = \"TEMPERATURE2\";\nvar TEMP1STAT_TOPIC = \"TEMP1_STATUS\";\nvar TEMP2STAT_TOPIC = \"TEMP2_STATUS\";\n\nvar dataType, sensorName, sensorID;\nvar action = \"\";\nvar PVAcceleration, PVVelocity, PVTemperature, PVPressure;\nvar uptime, batteryLeft, RSSI, PER, SNR;\nvar diagStatus, diagStatusDetail;\nvar debug = false;\nvar number;\nvar dateTime;\nvar fraction, exponent, sign, value, PVStatus, PVTemp1Status, PVTemperature1, PVTemp2Status, PVTemperature2, longitude, latitude, HPLongitude, HPLatitude, i, HPAltitude, vendorID, deviceType, deviceRev\nvar payloadPrefix = msg.payload.data\n\n/* ***********************************************************************************************\nCheckStatus (act, sensor, byte1, byte2)\nact     - string that contains the current sushi sensor action, used for error message purposes\nsensor  - string that contains the sensor name, used for error message purposes\nbyte1   - first byte of the status.\nbyte2   - second byte of the status.\n\nFunction that checks the status bytes.\nThe status bytes are part of the following sushi sensor messages:\n    case 0x10: //Sushi Sensor vibration (Z-axis)\n    case 0x11: //Sushi Sensor vibration (XYZ composite axes)\n    case 0x12: //Sushi Sensor vibration (X-axis)\n*********************************************************************************************** */\n\nfunction CheckStatus(sensor, byte1, byte2)\n{\n  if (byte1 === 0 && byte2 === 0) return true;\n  if (byte2 & 0x80) MqttMsgs.push({topic: SUSHI_SENSOR + \"/\" + sensor + \"/DataStatusFault\", payload:\"Accelaretion Error, message: \" + \", for sensor: \" + sensor});\n  if (byte2 & 0x40) MqttMsgs.push({topic: SUSHI_SENSOR + \"/\" + sensor + \"/DataStatusFault\", payload:\"Velocity Error, message: \" + \", for sensor: \" + sensor});\n  if (byte2 & 0x20) MqttMsgs.push({topic: SUSHI_SENSOR + \"/\" + sensor + \"/DataStatusFault\", payload:\"Temperature Error, message: \" + \", for sensor: \" + sensor});\n  if (byte2 & 0x10) MqttMsgs.push({topic: SUSHI_SENSOR + \"/\" + sensor + \"/DataStatusFault\", payload:\"Accelaretion overrange, message: \" + \", for sensor: \" + sensor});\n  if (byte2 & 0x08) MqttMsgs.push({topic: SUSHI_SENSOR + \"/\" + sensor + \"/DataStatusFault\", payload:\"Velocity overrange, message: \" + \", for sensor: \" + sensor});\n  if (byte2 & 0x04) MqttMsgs.push({topic: SUSHI_SENSOR + \"/\" + sensor + \"/DataStatusFault\", payload:\"Temperature overrange, message: \" + \", for sensor: \" + sensor});\n  if (byte2 & 0x02) MqttMsgs.push({topic: SUSHI_SENSOR + \"/\" + sensor + \"/DataStatusFault\", payload:\"Reserved, message: \" +  \", for sensor: \" + sensor});\n  if (byte2 & 0x01) MqttMsgs.push({topic: SUSHI_SENSOR + \"/\" + sensor + \"/DataStatusFault\", payload:\"Simulation mode, message: \" +  \", for sensor: \" + sensor});\n\n  return true;\n}\n\n/* ***********************************************************************************************\nGetFloat16(byte1, byte2)\n\nFunction that compiles a float value out of a 2 byte float16.\n*********************************************************************************************** */\n\nfunction GetFloat16(byte1, byte2) \n{\n  if(byte1 <0){\n      byte1 = (byte1 & 0xFF) | 0x80;\n  }else{\n      byte1 = byte1 & 0xFF;\n  }\n  if(byte2 <0){\n      byte2 = (byte2 & 0xFF) | 0x80;\n  }else{\n      byte2 = byte2 & 0xFF;\n  } \n  // byte2 = byte2 & 0xFF;\n  fraction = ((byte1 & 0x03) * 256) + byte2;\n  exponent = (byte1 & 0x7C) >> 2;\n  sign = byte1 >> 7;\n  if (exponent !== 0)\n  {\n    value = Math.pow(2, exponent - 15) * (1 + fraction/1024);\n  }\n  else value = Math.pow(2, -14) * fraction/1024;\n\n  if (sign) value = - value;\n  \n//  if(debug) node.error (\"GetFloat16: value=\" + value + \", byte1=\" + byte1 + \", byte2=\" + byte2 + \", fraction=\" + fraction + \", exponent=\" + exponent + \", sign=\" + sign);\n  if(debug) node.error (\"GetFloat16: value=\" + value + \", byte1=\" + byte1 + \", byte2=\" + byte2 + \", fraction=\" + fraction + \", exponent=\" + exponent + \", sign=\" + sign);\n  return value;\n}\n\n\n/* ***********************************************************************************************\nGetFloat32(byte1, byte2, byte3, byte4)\n\nFunction that compiles a float value out of a 4 byte float32.\n*********************************************************************************************** */\n\nfunction GetFloat32(byte1, byte2, byte3, byte4) \n{\n  fraction = ((byte2 & 0x7F) * 256 * 256) + byte3 * 256 + byte4;\n  exponent = ((byte1 & 0x7F) << 1) + (byte2 >> 7);\n  sign = byte1 >> 7;\n  if (exponent !== 0)\n  {\n    value = Math.pow(2, exponent - 127) * (1 + fraction/0x7FFFFF);\n  }\n  else value = Math.pow(2, -126) * fraction/0x7FFFFF;\n\n  if (sign) value = - value;\n  \n  if(debug) node.error (\"GetFloat32: value=\" + value + \", byte1=\" + byte1 + \", byte2=\" + byte2 + \", fraction=\" + fraction + \", exponent=\" + exponent + \", sign=\" + sign);\n  return value;\n}\n\n/* ***********************************************************************************************\nGetFloat64(byte1, byte2, byte3, byte4, byte5, byte6, byte7, byte8)\n\nFunction that compiles a float value out of a 8 byte float64.\n*********************************************************************************************** */\nfunction GetFloat64(byte1, byte2, byte3, byte4, byte5, byte6, byte7, byte8) \n{\n  fraction = ((byte2 & 0x0F) * 256 * 256 * 256 * 256 * 256 * 256) + (byte3 * 256 * 256 * 256 * 256 * 256) + \n\t            (byte4 * 256 * 256 * 256 * 256) + (byte5 * 256 * 256 * 256) +\n\t\t\t\t\t\t\t(byte6 * 256 * 256) + (byte7 * 256) + (byte8);\n  exponent = ((byte1 & 0x7F) << 4) + (byte2 >> 4);\n  sign = byte1 >> 7;\n  if (exponent !== 0)\n  {\n    value = Math.pow(2, exponent - 1023) * (1 + fraction/0xFFFFFFFFFFFFF);\n  }\n  else value = Math.pow(2, -1022) * fraction/0xFFFFFFFFFFFFF;\n\n  if (sign) value = - value;\n  \n  if(debug) node.error (\"GetFloat64: value=\" + value + \", byte1=\" + byte1 + \", byte2=\" + byte2 + \", fraction=\" + fraction + \", exponent=\" + exponent + \", sign=\" + sign);\n  return value;\n}\n\nsensorID = payloadPrefix.eui;\nsensorName = payloadPrefix.eui;\ndataType = payloadPrefix.payload[0];\nif(debug) node.error(\"Sushi Sensor - ID: \" + sensorID + \", Name: \" + sensorName + \", DataType: \" + dataType);\n\nif(sensorName !== undefined || dataType ===  0x42){\n  switch(dataType){\n    case 0x10: //Sushi Sensor vibration (Z-axis)\n      if( CheckStatus (sensorName, payloadPrefix.payload[1], payloadPrefix.payload[2]))\n      {\n        PVAcceleration = GetFloat16(payloadPrefix.payload[3], payloadPrefix.payload[4]);\n        PVVelocity = GetFloat16(payloadPrefix.payload[5], payloadPrefix.payload[6]);\n        PVTemperature = GetFloat16(payloadPrefix.payload[7], payloadPrefix.payload[8]);\n        PVStatus = (payloadPrefix.payload[1] * 256 + payloadPrefix.payload[2]);\n\n        var zdata = [{\n          zacc: PVAcceleration,\n          zvel: PVVelocity,\n          temp: PVTemperature,\n          zstat: PVStatus,\n        },\n        {\n          sensor_type: \"vib\",\n          eui: sensorID,\n        }];\n\n        MqttMsgs.push({ topic: SUSHI_SENSOR + \"/\" + sensorName, payload: zdata})\n\n        if(debug) node.error(\"Sushi Sensor vibration (Z-axis): PVAcceleration=\" + PVAcceleration + \", PVVelocity=\" + PVVelocity + \", PVTemperature=\" + PVTemperature);\n      }\n      break;\n\n    case 0x11: //Sushi Sensor vibration (XYZ composite axes)\n      if( CheckStatus (sensorName, payloadPrefix.payload[1], payloadPrefix.payload[2]))\n      {\n        PVAcceleration = GetFloat16(payloadPrefix.payload[3], payloadPrefix.payload[4]);\n        PVVelocity = GetFloat16(payloadPrefix.payload[5], payloadPrefix.payload[6]);\n        PVTemperature = GetFloat16(payloadPrefix.payload[7], payloadPrefix.payload[8]);\n        PVStatus = (payloadPrefix.payload[1] * 256 + payloadPrefix.payload[2]);\n        \n        var xyzdata = [{\n          xyzacc: PVAcceleration,\n          xyzvel: PVVelocity,\n          temp: PVTemperature,\n          xyzstat: PVStatus\n        },\n        {\n          sensor_type: \"vib\",\n          eui: sensorID\n        }];\n\n        MqttMsgs.push({ topic: SUSHI_SENSOR + \"/\" + sensorName, payload: xyzdata})\n\n        if(debug) node.error(\"Sushi Sensor vibration (XYZ composite axes): PVAcceleration=\" + PVAcceleration + \", PVVelocity=\" + PVVelocity + \", PVTemperature=\" + PVTemperature);\n      }\n      break;\n      \n    case 0x12: //Sushi Sensor vibration (X-axis)\n      if( CheckStatus (sensorName, payloadPrefix.payload[1], payloadPrefix.payload[2]))\n      {\n        PVAcceleration = GetFloat16(payloadPrefix.payload[3], payloadPrefix.payload[4]);\n        PVVelocity = GetFloat16(payloadPrefix.payload[5], payloadPrefix.payload[6]);\n        PVStatus = (payloadPrefix.payload[1] * 256 + payloadPrefix.payload[2]);\n        \n        var xdata = [{\n          xacc: PVAcceleration,\n          xvel: PVVelocity,\n          xstat: PVStatus\n        },\n        {\n          sensor_type: \"vib\",\n          eui: sensorID\n        }];\n        \n        MqttMsgs.push({ topic: SUSHI_SENSOR + \"/\" + sensorName, payload: xdata})\n\n        if(debug) node.error(\"Sushi Sensor vibration (X-axis): PVAcceleration=\" + PVAcceleration + \", PVVelocity=\" + PVVelocity);\n      }\n      break;\n      \n    case 0x13: //Sushi Sensor vibration (Y-axis)\n      if( CheckStatus (sensorName, payloadPrefix.payload[1], payloadPrefix.payload[2]))\n      {\n        PVAcceleration = GetFloat16(payloadPrefix.payload[3], payloadPrefix.payload[4]);\n        PVVelocity = GetFloat16(payloadPrefix.payload[5], payloadPrefix.payload[6]);\n        PVStatus = (payloadPrefix.payload[1] * 256 + payloadPrefix.payload[2]);\n\n        var ydata = [{\n          yacc: PVAcceleration,\n          yvel: PVVelocity,\n          ystat: PVStatus\n        },\n        {\n          sensor_type: \"vib\",\n          eui: sensorID\n        }];\n\n        MqttMsgs.push({ topic: SUSHI_SENSOR + \"/\" + sensorName, payload: ydata})\n\n        if(debug) node.error(\"Sushi Sensor vibration (Y-axis): PVAcceleration=\" + PVAcceleration + \", PVVelocity=\" + PVVelocity);\n      }\n      break;\n\n    case 0x20: //Sushi Sensor Temperature1\n      if( CheckStatus (sensorName, payloadPrefix.payload[1], payloadPrefix.payload[2]))\n      {\n        PVTemp1Status = (payloadPrefix.payload[1] * 256 + payloadPrefix.payload[2]); \n\t\t\t\tPVTemperature1 = GetFloat32(payloadPrefix.payload[3], payloadPrefix.payload[4], payloadPrefix.payload[5], payloadPrefix.payload[6]);\n\t\t\t\t\n        var temp1data = [{\n          temp1stat: PVTemp1Status,\n          temp1: PVTemperature1,\n        },\n        {\n          sensor_type: \"temp\",\n          eui: sensorID\n        }];\n\n        MqttMsgs.push({ topic: SUSHI_SENSOR + \"/\" + sensorName, payload: temp1data})\n\n        if(debug) node.error(\"Sushi Sensor Temperature1: PVTemperature = \" + PVTemperature1);\n      }\n      break;\n\n\t\t    case 0x21: //Sushi Sensor Temperature2\n      action = \"Sushi Sensor Temperature\";\n      if( CheckStatus (sensorName, payloadPrefix.payload[1], payloadPrefix.payload[2]))\n      {\n        PVTemp2Status = (payloadPrefix.payload[1] * 256 + payloadPrefix.payload[2]); \n\t\t\t\tPVTemperature2 = GetFloat32(payloadPrefix.payload[3], payloadPrefix.payload[4], payloadPrefix.payload[5], payloadPrefix.payload[6]);\n        \n        var temp2data = [{\n          temp2stat: PVTemp2Status,\n          temp2: PVTemperature2,\n        },\n        {\n          sensor_type: \"temp\",\n          eui: sensorID\n        }];\n\n        MqttMsgs.push({ topic: SUSHI_SENSOR + \"/\" + sensorName, payload: temp2data})\n\n        if(debug) node.error(\"Sushi Sensor Temperature: PVTemperature = \" + PVTemperature2);\n      }\n      break;\t\n\n    case 0x30: //Sushi Sensor Pressure\n      if( CheckStatus (sensorName, payloadPrefix.payload[1], payloadPrefix.payload[2]))\n      {\n        PVStatus = (payloadPrefix.payload[1] * 256 + payloadPrefix.payload[2]);\n\t\t\t\tPVPressure = GetFloat32(payloadPrefix.payload[3], payloadPrefix.payload[4], payloadPrefix.payload[5], payloadPrefix.payload[6]);\n\t\t\t\t\n        var press_data = [{\n          press_stat: PVStatus,\n          press: PVPressure,\n        },\n        {\n          sensor_type: \"press\",\n          eui: sensorID\n        }];\n\n        MqttMsgs.push({ topic: SUSHI_SENSOR + \"/\" + sensorName, payload: press_data})\n\n        if(debug) node.error(\"Sushi Sensor Pressure: PVPressure = \" + PVPressure);\n      }\n      break;\n\n    case 0x31: //Sushi Sensor Temperature\n      if( CheckStatus (sensorName, payloadPrefix.payload[1], payloadPrefix.payload[2]))\n      {\n        PVStatus = (payloadPrefix.payload[1] * 256 + payloadPrefix.payload[2]); \n\t\t\t\tPVTemperature = GetFloat32(payloadPrefix.payload[3], payloadPrefix.payload[4], payloadPrefix.payload[5], payloadPrefix.payload[6]);\n        \n        var press_temp_data = [{\n          press_temp_stat: PVStatus,\n          press_temp: PVTemperature,\n        },\n        {\n          sensor_type: \"press\",\n          eui: sensorID\n        }];\n\n        MqttMsgs.push({ topic: SUSHI_SENSOR + \"/\" + sensorName, payload: press_temp_data})\n\n        if(debug) node.error(\"Sushi Sensor Temperature: PVTemperature = \" + PVTemperature);\n      }\n      break;\n      \n    case 0x40: // Soundness information (HRI)\n      uptime = (payloadPrefix.payload[1] * 256 * 256 + payloadPrefix.payload[2] *256 + payloadPrefix.payload[3])/1440;\n      batteryLeft = payloadPrefix.payload[4]/2;\n      RSSI = payloadPrefix.payload[5]*-1;\n      PER = payloadPrefix.payload[6];\n      SNR = (payloadPrefix.payload[7] & 0x7F) / 4;\n        \n        var soundless_data = [{\n          upt: uptime,\n          bat: batteryLeft,\n          rssi: RSSI,\n          per: PER,\n          snr: SNR\n        },\n        {\n          eui: sensorID,\n          data_type: \"meta_data\"\n        }];\n\n        MqttMsgs.push({ topic: SUSHI_SENSOR + \"/\" + sensorName, payload: soundless_data})\n\n      if(debug) node.error(\"Soundness information (HRI): Uptime=\" + uptime + \" minutes, BatteryLeft=\" + batteryLeft + \" %, RSSI=\" + RSSI + \" dBm, PER=\" + PER + \" %, SNR=\" + SNR + \" dB\");\n      break;\n      \n    case 0x41: // Self-diagnosis information (DIAG)\n      diagStatus =       payloadPrefix.payload[1] * 256 * 256 * 256 + payloadPrefix.payload[2] * 256 * 256 + payloadPrefix.payload[3] * 256 + payloadPrefix.payload[4];\n      diagStatusDetail = payloadPrefix.payload[5] * 256 * 256 * 256 + payloadPrefix.payload[6] * 256 * 256 + payloadPrefix.payload[7] * 256 + payloadPrefix.payload[8];\n      \n      var diag_data = [{\n        diag: diagStatus,\n        diagdetail: diagStatusDetail,\n      },\n      {\n        eui: sensorID,\n        data_type: \"meta_data\"\n      }];\n\n      MqttMsgs.push({ topic: SUSHI_SENSOR + \"/\" + sensorName, payload: diag_data})\n\n      if(debug) node.error(\"Self-diagnosis information (DIAG): Diag_Status=\" + diagStatus + \", Diag_Status_detail=\" + diagStatusDetail);\n      break;\n      \n    case 0x42: // Initialization information (INI)\n      for (i = 1; i< payloadPrefix.payload.length ; i++)\n      {\n        if (payloadPrefix.payload[i] === 0) break;\n      }\n      sensorName = payloadPrefix.payload.slice(1, i); // should start at payload (1)\n      //Check if we already know this sensor\n      if (global.get(sensorID) == sensorName) {\n          if(debug) node.error(\"Known sensor=\" + sensorName + \" \" + global.get(sensorID));\n          //MqttMsgs.push({topic: \"SushiConfig\", payload:sensorID + \";\" +sensorName + \";\" + \"known sensor\"});\n      } else {\n          if(debug) node.error(\"Unknown sensor=\" + sensorName);\n          global.set(sensorID, sensorName);\n           dateTime = new Date();\n           var dateTimeString = dateTime.getFullYear()+'-'+(dateTime.getMonth()+1)+'-'+dateTime.getDate()+ \n            '-'+dateTime.getHours() + \":\" + dateTime.getMinutes() + \":\" + dateTime.getSeconds();\n           \n          MqttMsgs.push({topic: \"SushiConfig\", payload:sensorID + \";\" +sensorName + \";\" + dateTime});\n      }\n      if(debug) node.error(\"Initialization information (INI): sensorname=\" + sensorName + \", length=\" + (i-1));\n      break;\n\n    case 0x43: // GPS informaption (GPS)\n      longitude = GetFloat32(payloadPrefix.payload[1], payloadPrefix.payload[2], payloadPrefix.payload[3], payloadPrefix.payload[4]);\n      latitude = GetFloat32(payloadPrefix.payload[5], payloadPrefix.payload[6], payloadPrefix.payload[7], payloadPrefix.payload[8]);\n      \n      var gps_data = [{\n        long: longitude,\n        lat: latitude,\n      },\n      {\n        sensor_type: \"vib\",\n        eui: sensorID,\n        data_type: \"meta_data\"\n      }];\n\n      MqttMsgs.push({ topic: SUSHI_SENSOR + \"/\" + sensorName, payload: gps_data})\n        /*\n      MqttMsgs.push({topic: SUSHI_SENSOR + \"/\" + sensorName + \"/\" + LONG_TOPIC, payload:longitude});\n      MqttMsgs.push({topic: SUSHI_SENSOR + \"/\" + sensorName + \"/\" + LAT_TOPIC, payload:latitude});\n      */\n      if(debug) node.error(\"GPS informaption (GPS): Longitude=\" + longitude + \", Latitude=\" + latitude );\n      break;\n\n    case 0x44: // High Precision GPS Longitude (HPGPS-LO)\n    \tHPLongitude = GetFloat64(payloadPrefix.payload[1], payloadPrefix.payload[2], payloadPrefix.payload[3], payloadPrefix.payload[4], \n\t\t\t                         payloadPrefix.payload[5], payloadPrefix.payload[6], payloadPrefix.payload[7], payloadPrefix.payload[8]);\n      \n      var hp_gps_LO_data = [{\n        hplong: HPLongitude\n      },\n      {\n        eui: sensorID,\n        data_type: \"meta_data\"\n      }];\n\n      MqttMsgs.push({ topic: SUSHI_SENSOR + \"/\" + sensorName, payload: hp_gps_LO_data })\n\n      if(debug) node.error(\"High Precision GPS informaption (HPGPS-LO): Longitude=\" + HPLongitude);\n      break;\n\n    case 0x45: // High Precision GPS Latitude (HPGPS-LA)\n\t\t\tHPLatitude = GetFloat64(payloadPrefix.payload[1], payloadPrefix.payload[2], payloadPrefix.payload[3], payloadPrefix.payload[4], \n\t\t\t                        payloadPrefix.payload[5], payloadPrefix.payload[6], payloadPrefix.payload[7], payloadPrefix.payload[8]);\n      \n      var hp_gps_LA_data = [{\n        hplat: HPLatitude,\n      },\n      {\n        eui: sensorID,\n        data_type: \"meta_data\"\n      }];\n\n      MqttMsgs.push({ topic: SUSHI_SENSOR + \"/\" + sensorName, payload: hp_gps_LA_data})\n\n      if(debug) node.error(\"High Precision GPS informaption (HPGPS-LA): Latitude=\" + HPLatitude);\n      break;\n\n    case 0x46: // High Precision GPS Altitude (HPGPS-AL)\n\t\t\tHPAltitude = GetFloat64(payloadPrefix.payload[1], payloadPrefix.payload[2], payloadPrefix.payload[3], payloadPrefix.payload[4], \n\t\t\t                        payloadPrefix.payload[5], payloadPrefix.payload[6], payloadPrefix.payload[7], payloadPrefix.payload[8]);\n\n      var hp_gps_AL_data = [{\n        hplat: HPAltitude,\n      },\n      {\n        eui: sensorID,\n        data_type: \"meta_data\"\n      }];\n\n      MqttMsgs.push({ topic: SUSHI_SENSOR + \"/\" + sensorName, payload: hp_gps_AL_data })\n\n      if(debug) node.error(\"High Precision GPS informaption (HPGPS-LA): Altitude=\" + HPAltitude);\n      break;\n\n    case 0x47: // Equipment Information\n        // device type\n        // Vibration sensor: Not supported?\n        // Temperature sensor: 3\n        // Pressure sensor: 5\n\n\t\t  vendorID = payloadPrefix.payload[1] * 256 * 256 * 256 + payloadPrefix.payload[2] * 256 * 256 + payloadPrefix.payload[3] * 256 + payloadPrefix.payload[4];\n\t\t\tdeviceType = payloadPrefix.payload[5] * 256 + payloadPrefix.payload[6];\n\t\t\tdeviceRev = payloadPrefix.payload[7] * 256 + payloadPrefix.payload[8];\n\t\t\t\n      var equip_data = [{\n        vendorid: vendorID,\n        devtype: deviceType,\n        devrev: deviceRev      },\n      {\n        eui: sensorID,\n        data_type: \"meta_data\"\n      }];\n\n      MqttMsgs.push({ topic: SUSHI_SENSOR + \"/\" + sensorName, payload: equip_data})\n\n      if(debug) node.error(\"Equipment information (HRI): VendorID = \" + vendorID + \" , Device Type =\" + deviceType + \" ,deviceRev=\" + deviceRev);\n\t\t\t\n  \t\tbreak;\n      \n    default:\n      if(debug) node.error(\"Unknown message\");\n      \n  }\n}\nreturn [ MqttMsgs ];",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 400,
+        "y": 480,
+        "wires": [
+            [
+                "8044e854ab44794b"
+            ]
+        ]
+    },
+    {
+        "id": "8044e854ab44794b",
+        "type": "switch",
+        "z": "32c84381505baa01",
+        "name": "checkTopic",
+        "property": "topic",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "SushiConfig",
+                "vt": "str"
+            },
+            {
+                "t": "else"
+            }
+        ],
+        "checkall": "false",
+        "repair": false,
+        "outputs": 2,
+        "x": 630,
+        "y": 480,
+        "wires": [
+            [
+                "1b7168efc568cce0"
+            ],
+            [
+                "e2ef8e510ba6284c",
+                "e137271ffe80c0bd"
+            ]
+        ]
+    },
+    {
+        "id": "e137271ffe80c0bd",
+        "type": "debug",
+        "z": "32c84381505baa01",
+        "name": "after translation",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 860,
+        "y": 560,
+        "wires": []
+    },
+    {
+        "id": "1b7168efc568cce0",
+        "type": "debug",
+        "z": "32c84381505baa01",
+        "name": "configInfo",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 860,
+        "y": 300,
+        "wires": []
+    },
+    {
+        "id": "e2ef8e510ba6284c",
+        "type": "influxdb out",
+        "z": "32c84381505baa01",
+        "influxdb": "5d7fbe0739ef64bc",
+        "name": "",
+        "measurement": "sushi",
+        "precision": "",
+        "retentionPolicy": "",
+        "database": "database",
+        "precisionV18FluxV20": "ms",
+        "retentionPolicyV18Flux": "",
+        "org": "ert3",
+        "bucket": "sushiSensor",
+        "x": 870,
+        "y": 500,
+        "wires": []
+    },
+    {
+        "id": "814af7e37003d680",
+        "type": "comment",
+        "z": "32c84381505baa01",
+        "name": "cloud",
+        "info": "",
+        "x": 830,
+        "y": 460,
+        "wires": []
+    },
+    {
+        "id": "00b677f0511a4572",
+        "type": "debug",
+        "z": "32c84381505baa01",
+        "name": "before translation",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 450,
+        "y": 220,
+        "wires": []
+    },
+    {
+        "id": "19293973c0d11807",
+        "type": "http request",
+        "z": "32c84381505baa01",
+        "name": "",
+        "method": "POST",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "http://192.168.2.3:34591/api/v1/sushi",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 430,
+        "y": 320,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "f7718a218352be75",
+        "type": "comment",
+        "z": "32c84381505baa01",
+        "name": "ga10",
+        "info": "",
+        "x": 410,
+        "y": 280,
+        "wires": []
+    },
+    {
+        "id": "5d7fbe0739ef64bc",
+        "type": "influxdb",
+        "hostname": "127.0.0.1",
+        "port": "8086",
+        "protocol": "http",
+        "database": "database",
+        "name": "Cloud",
+        "usetls": false,
+        "tls": "",
+        "influxdbVersion": "2.0",
+        "url": "https://us-east-1-1.aws.cloud2.influxdata.com/",
+        "timeout": "10",
+        "rejectUnauthorized": false
+    }
+]
